@@ -1,25 +1,24 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/mail-client"
+}
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
+  url      = env("AUCTION_DATABASE_URL")
 }
 
 model auction {
   id                          Int         @default(autoincrement()) @id
   buyoutPrice                 Int         @default(0)
   bidPrice                    Int         @default(0)
+  startBidPrice               Int         @default(0)
   sellerId                    String      @db.VarChar(50) @default("")
   sellerName                  String      @db.VarChar(32) @default("")
   isEnd                       Boolean     @default(false)
   isBuyout                    Boolean     @default(false)
-  winnerId                    String      @db.VarChar(50) @default("")
-  winnerName                  String      @db.VarChar(32) @default("")
+  buyerId                     String      @db.VarChar(50) @default("")
+  buyerName                   String      @db.VarChar(32) @default("")
   itemDataId                  Int         @default(0)
   itemLevel                   Int         @default(1)
   itemAmount                  Int         @default(0)
@@ -29,6 +28,15 @@ model auction {
   itemExpireTime              BigInt      @default(0)
   itemRandomSeed              Int         @default(0)
   itemSockets                 String      @db.VarChar(32) @default("")
-  createdAt                   DateTime    @default(now())
   endedAt                     DateTime?
+  createdAt                   DateTime    @default(now())
+}
+
+model auction_bid_logs {
+  id                          BigInt      @default(autoincrement()) @id
+  auctionId                   Int
+  buyerId                     String      @db.VarChar(50) @default("")
+  buyerName                   String      @db.VarChar(32) @default("")
+  bidPrice                    Int         @default(0)
+  isBuyout                    Boolean     @default(false)
 }
