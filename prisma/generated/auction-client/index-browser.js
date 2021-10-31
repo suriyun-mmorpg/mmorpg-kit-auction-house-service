@@ -70,25 +70,37 @@ Prisma.validator = () => (val) => val
 // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 function makeEnum(x) { return x; }
 
-exports.Prisma.MailScalarFieldEnum = makeEnum({
+exports.Prisma.AuctionScalarFieldEnum = makeEnum({
   id: 'id',
-  eventId: 'eventId',
-  senderId: 'senderId',
-  senderName: 'senderName',
-  receiverId: 'receiverId',
-  title: 'title',
-  content: 'content',
-  gold: 'gold',
-  cash: 'cash',
-  currencies: 'currencies',
-  items: 'items',
-  isRead: 'isRead',
-  readTimestamp: 'readTimestamp',
-  isClaim: 'isClaim',
-  claimTimestamp: 'claimTimestamp',
-  isDelete: 'isDelete',
-  deleteTimestamp: 'deleteTimestamp',
-  sentTimestamp: 'sentTimestamp'
+  buyoutPrice: 'buyoutPrice',
+  bidPrice: 'bidPrice',
+  startBidPrice: 'startBidPrice',
+  sellerId: 'sellerId',
+  sellerName: 'sellerName',
+  isEnd: 'isEnd',
+  isBuyout: 'isBuyout',
+  buyerId: 'buyerId',
+  buyerName: 'buyerName',
+  itemDataId: 'itemDataId',
+  itemLevel: 'itemLevel',
+  itemAmount: 'itemAmount',
+  itemDurability: 'itemDurability',
+  itemExp: 'itemExp',
+  itemLockRemainsDuration: 'itemLockRemainsDuration',
+  itemExpireTime: 'itemExpireTime',
+  itemRandomSeed: 'itemRandomSeed',
+  itemSockets: 'itemSockets',
+  endedAt: 'endedAt',
+  createdAt: 'createdAt'
+});
+
+exports.Prisma.Auction_bid_logsScalarFieldEnum = makeEnum({
+  id: 'id',
+  auctionId: 'auctionId',
+  buyerId: 'buyerId',
+  buyerName: 'buyerName',
+  bidPrice: 'bidPrice',
+  isBuyout: 'isBuyout'
 });
 
 exports.Prisma.SortOrder = makeEnum({
@@ -98,7 +110,8 @@ exports.Prisma.SortOrder = makeEnum({
 
 
 exports.Prisma.ModelName = makeEnum({
-  mail: 'mail'
+  auction: 'auction',
+  auction_bid_logs: 'auction_bid_logs'
 });
 
 /**

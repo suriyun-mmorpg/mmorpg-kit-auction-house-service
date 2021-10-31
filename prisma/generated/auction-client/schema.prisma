@@ -5,34 +5,38 @@ generator client {
 
 datasource db {
   provider = "mysql"
-  url      = env("MAIL_DATABASE_URL")
+  url      = env("AUCTION_DATABASE_URL")
 }
 
-model mail {
-  id              BigInt    @id @default(autoincrement())
-  eventId         String    @db.VarChar(50)
-  senderId        String    @db.VarChar(50)
-  senderName      String    @db.VarChar(32)
-  receiverId      String    @db.VarChar(50)
-  title           String    @db.VarChar(160)
-  content         String    @db.Text
-  gold            Int       @default(0)
-  cash            Int       @default(0)
-  currencies      String    @db.Text
-  items           String    @db.Text
-  isRead          Boolean   @default(false)
-  readTimestamp   DateTime? @db.Timestamp(0)
-  isClaim         Boolean   @default(false)
-  claimTimestamp  DateTime? @db.Timestamp(0)
-  isDelete        Boolean   @default(false)
-  deleteTimestamp DateTime? @db.Timestamp(0)
-  sentTimestamp   DateTime  @default(now()) @db.Timestamp(0)
+model auction {
+  id                          Int         @default(autoincrement()) @id
+  buyoutPrice                 Int         @default(0)
+  bidPrice                    Int         @default(0)
+  startBidPrice               Int         @default(0)
+  sellerId                    String      @db.VarChar(50) @default("")
+  sellerName                  String      @db.VarChar(32) @default("")
+  isEnd                       Boolean     @default(false)
+  isBuyout                    Boolean     @default(false)
+  buyerId                     String      @db.VarChar(50) @default("")
+  buyerName                   String      @db.VarChar(32) @default("")
+  itemDataId                  Int         @default(0)
+  itemLevel                   Int         @default(1)
+  itemAmount                  Int         @default(0)
+  itemDurability              Float       @default(0)
+  itemExp                     Int         @default(0)
+  itemLockRemainsDuration     Float       @default(0)
+  itemExpireTime              BigInt      @default(0)
+  itemRandomSeed              Int         @default(0)
+  itemSockets                 String      @db.VarChar(32) @default("")
+  endedAt                     DateTime?
+  createdAt                   DateTime    @default(now())
+}
 
-  @@index([eventId], name: "eventId")
-  @@index([isClaim], name: "isClaim")
-  @@index([isDelete], name: "isDelete")
-  @@index([isRead], name: "isRead")
-  @@index([receiverId], name: "receiverId")
-  @@index([senderId], name: "senderId")
-  @@index([senderName], name: "senderName")
+model auction_bid_logs {
+  id                          BigInt      @default(autoincrement()) @id
+  auctionId                   Int
+  buyerId                     String      @db.VarChar(50) @default("")
+  buyerName                   String      @db.VarChar(32) @default("")
+  bidPrice                    Int         @default(0)
+  isBuyout                    Boolean     @default(false)
 }

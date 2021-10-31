@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "./generated/mail-client"
+  output   = "./generated/auction-client"
 }
 
 datasource db {
