@@ -100,12 +100,14 @@ const server = fastify()
                     itemExpireTime: form.itemExpireTime,
                     itemRandomSeed: form.itemRandomSeed,
                     itemSockets: form.itemSockets,
+                    // Set ended at value
                 }
             })
             if (!newAuction) {
                 reply.code(500)
                 return
             }
+            addUpdatingAuction(newAuction)
             reply.code(200)
         })
 
@@ -175,6 +177,59 @@ const server = fastify()
         })
     })
 
+const updatingAuctions: { [id: number] : any } = {}
+
+const auctionUpdateLoopInitialze = async () => {
+    const auctions = await auctionClient.auction.findMany({
+        where: {
+            isEnd: false,
+        }
+    })
+    auctions.forEach(auction => {
+        addUpdatingAuction(auction)
+    });
+    auctionUpdateLoop()
+}
+
+const auctionUpdateLoop = () => {
+    setTimeout(auctionUpdateLoop, 5000)
+    // Loop to update auction ending
+    const currentDate = DateTime.local().toJSDate()
+    const currentMilliseconds = currentDate.getMilliseconds()
+    for (const id in updatingAuctions) {
+        if (!Object.prototype.hasOwnProperty.call(updatingAuctions, id)) {
+            continue
+        }
+        const updatingAuction = updatingAuctions[id];
+        if (currentMilliseconds > updatingAuction.endedAt) {
+            // Auction ended
+            auctionClient.auction.updateMany({
+                where: {
+                    id: Number(id),
+                    isEnd: false,
+                },
+                data: {
+                    isEnd: true,
+                    endedAt: currentDate,
+                }
+            }).then((result) => {
+                if (result.count === 0) {
+                    return
+                }
+                sendItem(Number(id))
+            })
+            delete updatingAuctions[id]
+        }
+    }
+}
+
+const addUpdatingAuction = (auction: any) => {
+    updatingAuctions[auction.id] = auction
+}
+
+const sendItem = async (id: number) => {
+
+}
 
 server.listen(Number(process.env['PORT']), String(process.env['ADDRESS']), (err, address) => {
     if (err) {
@@ -182,4 +237,5 @@ server.listen(Number(process.env['PORT']), String(process.env['ADDRESS']), (err,
         process.exit(1)
     }
     console.log(`Server listening at ${address}`)
+    auctionUpdateLoopInitialze()
 })
