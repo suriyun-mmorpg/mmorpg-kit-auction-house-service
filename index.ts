@@ -172,7 +172,7 @@ const server = fastify()
                 reply.code(500)
                 return
             }
-            // TODO: Create mail to send item
+            sendItem(form.id)
             reply.code(200)
         })
     })
