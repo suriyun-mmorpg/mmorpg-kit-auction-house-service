@@ -15,10 +15,14 @@ export interface CreateAuctionForm {
 }
 
 export interface BidForm {
+    characterId: String,
+    characterName: String,
     id: Number,
     price: Number,
 }
 
 export interface BuyoutForm {
+    characterId: String,
+    characterName: String,
     id: Number,
 }
