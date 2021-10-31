@@ -115,6 +115,16 @@ const server = fastify()
             ]),
         }, async (request, reply) => {
             const form: BidForm = request.body
+            const auction: any = await auctionClient.auction.findUnique({
+                where: {
+                    id: form.id
+                }
+            })
+            if (!auction) {
+                reply.code(400)
+                return
+            }
+            const prevBuyerId = auction.buyerId;
             const updateResult = await auctionClient.auction.updateMany({
                 where: {
                     id: form.id,
