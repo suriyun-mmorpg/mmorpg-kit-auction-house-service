@@ -81,15 +81,7 @@ exports.Prisma.AuctionScalarFieldEnum = makeEnum({
   isBuyout: 'isBuyout',
   buyerId: 'buyerId',
   buyerName: 'buyerName',
-  itemDataId: 'itemDataId',
-  itemLevel: 'itemLevel',
-  itemAmount: 'itemAmount',
-  itemDurability: 'itemDurability',
-  itemExp: 'itemExp',
-  itemLockRemainsDuration: 'itemLockRemainsDuration',
-  itemExpireTime: 'itemExpireTime',
-  itemRandomSeed: 'itemRandomSeed',
-  itemSockets: 'itemSockets',
+  itemData: 'itemData',
   endedAt: 'endedAt',
   createdAt: 'createdAt'
 });

@@ -13,44 +13,28 @@ type UnwrapTuple<Tuple extends readonly unknown[]> = {
 
 
 /**
- * Model auction
+ * Model mail
  */
 
-export type auction = {
-  id: number
-  buyoutPrice: number
-  bidPrice: number
-  startBidPrice: number
-  sellerId: string
-  sellerName: string
-  isEnd: boolean
-  isBuyout: boolean
-  buyerId: string
-  buyerName: string
-  itemDataId: number
-  itemLevel: number
-  itemAmount: number
-  itemDurability: number
-  itemExp: number
-  itemLockRemainsDuration: number
-  itemExpireTime: bigint
-  itemRandomSeed: number
-  itemSockets: string
-  endedAt: Date | null
-  createdAt: Date
-}
-
-/**
- * Model auction_bid_logs
- */
-
-export type auction_bid_logs = {
+export type mail = {
   id: bigint
-  auctionId: number
-  buyerId: string
-  buyerName: string
-  bidPrice: number
-  isBuyout: boolean
+  eventId: string
+  senderId: string
+  senderName: string
+  receiverId: string
+  title: string
+  content: string
+  gold: number
+  cash: number
+  currencies: string
+  items: string
+  isRead: boolean
+  readTimestamp: Date | null
+  isClaim: boolean
+  claimTimestamp: Date | null
+  isDelete: boolean
+  deleteTimestamp: Date | null
+  sentTimestamp: Date
 }
 
 
@@ -61,8 +45,8 @@ export type auction_bid_logs = {
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Auctions
- * const auctions = await prisma.auction.findMany()
+ * // Fetch zero or more Mail
+ * const mail = await prisma.mail.findMany()
  * ```
  *
  * 
@@ -107,8 +91,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Auctions
-   * const auctions = await prisma.auction.findMany()
+   * // Fetch zero or more Mail
+   * const mail = await prisma.mail.findMany()
    * ```
    *
    * 
@@ -177,24 +161,14 @@ export class PrismaClient<
   $transaction<P extends PrismaPromise<any>[]>(arg: [...P]): Promise<UnwrapTuple<P>>
 
       /**
-   * `prisma.auction`: Exposes CRUD operations for the **auction** model.
+   * `prisma.mail`: Exposes CRUD operations for the **mail** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Auctions
-    * const auctions = await prisma.auction.findMany()
+    * // Fetch zero or more Mail
+    * const mail = await prisma.mail.findMany()
     * ```
     */
-  get auction(): Prisma.auctionDelegate<GlobalReject>;
-
-  /**
-   * `prisma.auction_bid_logs`: Exposes CRUD operations for the **auction_bid_logs** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Auction_bid_logs
-    * const auction_bid_logs = await prisma.auction_bid_logs.findMany()
-    * ```
-    */
-  get auction_bid_logs(): Prisma.auction_bid_logsDelegate<GlobalReject>;
+  get mail(): Prisma.mailDelegate<GlobalReject>;
 }
 
 export namespace Prisma {
@@ -536,8 +510,7 @@ export namespace Prisma {
   }
 
   export const ModelName: {
-    auction: 'auction',
-    auction_bid_logs: 'auction_bid_logs'
+    mail: 'mail'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -698,1314 +671,445 @@ export namespace Prisma {
    */
 
   /**
-   * Model auction
+   * Model mail
    */
 
 
-  export type AggregateAuction = {
-    count: AuctionCountAggregateOutputType | null
-    avg: AuctionAvgAggregateOutputType | null
-    sum: AuctionSumAggregateOutputType | null
-    min: AuctionMinAggregateOutputType | null
-    max: AuctionMaxAggregateOutputType | null
+  export type AggregateMail = {
+    count: MailCountAggregateOutputType | null
+    avg: MailAvgAggregateOutputType | null
+    sum: MailSumAggregateOutputType | null
+    min: MailMinAggregateOutputType | null
+    max: MailMaxAggregateOutputType | null
   }
 
-  export type AuctionAvgAggregateOutputType = {
+  export type MailAvgAggregateOutputType = {
     id: number | null
-    buyoutPrice: number | null
-    bidPrice: number | null
-    startBidPrice: number | null
-    itemDataId: number | null
-    itemLevel: number | null
-    itemAmount: number | null
-    itemDurability: number | null
-    itemExp: number | null
-    itemLockRemainsDuration: number | null
-    itemExpireTime: number | null
-    itemRandomSeed: number | null
+    gold: number | null
+    cash: number | null
   }
 
-  export type AuctionSumAggregateOutputType = {
-    id: number | null
-    buyoutPrice: number | null
-    bidPrice: number | null
-    startBidPrice: number | null
-    itemDataId: number | null
-    itemLevel: number | null
-    itemAmount: number | null
-    itemDurability: number | null
-    itemExp: number | null
-    itemLockRemainsDuration: number | null
-    itemExpireTime: bigint | null
-    itemRandomSeed: number | null
+  export type MailSumAggregateOutputType = {
+    id: bigint | null
+    gold: number | null
+    cash: number | null
   }
 
-  export type AuctionMinAggregateOutputType = {
-    id: number | null
-    buyoutPrice: number | null
-    bidPrice: number | null
-    startBidPrice: number | null
-    sellerId: string | null
-    sellerName: string | null
-    isEnd: boolean | null
-    isBuyout: boolean | null
-    buyerId: string | null
-    buyerName: string | null
-    itemDataId: number | null
-    itemLevel: number | null
-    itemAmount: number | null
-    itemDurability: number | null
-    itemExp: number | null
-    itemLockRemainsDuration: number | null
-    itemExpireTime: bigint | null
-    itemRandomSeed: number | null
-    itemSockets: string | null
-    endedAt: Date | null
-    createdAt: Date | null
+  export type MailMinAggregateOutputType = {
+    id: bigint | null
+    eventId: string | null
+    senderId: string | null
+    senderName: string | null
+    receiverId: string | null
+    title: string | null
+    content: string | null
+    gold: number | null
+    cash: number | null
+    currencies: string | null
+    items: string | null
+    isRead: boolean | null
+    readTimestamp: Date | null
+    isClaim: boolean | null
+    claimTimestamp: Date | null
+    isDelete: boolean | null
+    deleteTimestamp: Date | null
+    sentTimestamp: Date | null
   }
 
-  export type AuctionMaxAggregateOutputType = {
-    id: number | null
-    buyoutPrice: number | null
-    bidPrice: number | null
-    startBidPrice: number | null
-    sellerId: string | null
-    sellerName: string | null
-    isEnd: boolean | null
-    isBuyout: boolean | null
-    buyerId: string | null
-    buyerName: string | null
-    itemDataId: number | null
-    itemLevel: number | null
-    itemAmount: number | null
-    itemDurability: number | null
-    itemExp: number | null
-    itemLockRemainsDuration: number | null
-    itemExpireTime: bigint | null
-    itemRandomSeed: number | null
-    itemSockets: string | null
-    endedAt: Date | null
-    createdAt: Date | null
+  export type MailMaxAggregateOutputType = {
+    id: bigint | null
+    eventId: string | null
+    senderId: string | null
+    senderName: string | null
+    receiverId: string | null
+    title: string | null
+    content: string | null
+    gold: number | null
+    cash: number | null
+    currencies: string | null
+    items: string | null
+    isRead: boolean | null
+    readTimestamp: Date | null
+    isClaim: boolean | null
+    claimTimestamp: Date | null
+    isDelete: boolean | null
+    deleteTimestamp: Date | null
+    sentTimestamp: Date | null
   }
 
-  export type AuctionCountAggregateOutputType = {
+  export type MailCountAggregateOutputType = {
     id: number
-    buyoutPrice: number
-    bidPrice: number
-    startBidPrice: number
-    sellerId: number
-    sellerName: number
-    isEnd: number
-    isBuyout: number
-    buyerId: number
-    buyerName: number
-    itemDataId: number
-    itemLevel: number
-    itemAmount: number
-    itemDurability: number
-    itemExp: number
-    itemLockRemainsDuration: number
-    itemExpireTime: number
-    itemRandomSeed: number
-    itemSockets: number
-    endedAt: number
-    createdAt: number
+    eventId: number
+    senderId: number
+    senderName: number
+    receiverId: number
+    title: number
+    content: number
+    gold: number
+    cash: number
+    currencies: number
+    items: number
+    isRead: number
+    readTimestamp: number
+    isClaim: number
+    claimTimestamp: number
+    isDelete: number
+    deleteTimestamp: number
+    sentTimestamp: number
     _all: number
   }
 
 
-  export type AuctionAvgAggregateInputType = {
+  export type MailAvgAggregateInputType = {
     id?: true
-    buyoutPrice?: true
-    bidPrice?: true
-    startBidPrice?: true
-    itemDataId?: true
-    itemLevel?: true
-    itemAmount?: true
-    itemDurability?: true
-    itemExp?: true
-    itemLockRemainsDuration?: true
-    itemExpireTime?: true
-    itemRandomSeed?: true
+    gold?: true
+    cash?: true
   }
 
-  export type AuctionSumAggregateInputType = {
+  export type MailSumAggregateInputType = {
     id?: true
-    buyoutPrice?: true
-    bidPrice?: true
-    startBidPrice?: true
-    itemDataId?: true
-    itemLevel?: true
-    itemAmount?: true
-    itemDurability?: true
-    itemExp?: true
-    itemLockRemainsDuration?: true
-    itemExpireTime?: true
-    itemRandomSeed?: true
+    gold?: true
+    cash?: true
   }
 
-  export type AuctionMinAggregateInputType = {
+  export type MailMinAggregateInputType = {
     id?: true
-    buyoutPrice?: true
-    bidPrice?: true
-    startBidPrice?: true
-    sellerId?: true
-    sellerName?: true
-    isEnd?: true
-    isBuyout?: true
-    buyerId?: true
-    buyerName?: true
-    itemDataId?: true
-    itemLevel?: true
-    itemAmount?: true
-    itemDurability?: true
-    itemExp?: true
-    itemLockRemainsDuration?: true
-    itemExpireTime?: true
-    itemRandomSeed?: true
-    itemSockets?: true
-    endedAt?: true
-    createdAt?: true
+    eventId?: true
+    senderId?: true
+    senderName?: true
+    receiverId?: true
+    title?: true
+    content?: true
+    gold?: true
+    cash?: true
+    currencies?: true
+    items?: true
+    isRead?: true
+    readTimestamp?: true
+    isClaim?: true
+    claimTimestamp?: true
+    isDelete?: true
+    deleteTimestamp?: true
+    sentTimestamp?: true
   }
 
-  export type AuctionMaxAggregateInputType = {
+  export type MailMaxAggregateInputType = {
     id?: true
-    buyoutPrice?: true
-    bidPrice?: true
-    startBidPrice?: true
-    sellerId?: true
-    sellerName?: true
-    isEnd?: true
-    isBuyout?: true
-    buyerId?: true
-    buyerName?: true
-    itemDataId?: true
-    itemLevel?: true
-    itemAmount?: true
-    itemDurability?: true
-    itemExp?: true
-    itemLockRemainsDuration?: true
-    itemExpireTime?: true
-    itemRandomSeed?: true
-    itemSockets?: true
-    endedAt?: true
-    createdAt?: true
+    eventId?: true
+    senderId?: true
+    senderName?: true
+    receiverId?: true
+    title?: true
+    content?: true
+    gold?: true
+    cash?: true
+    currencies?: true
+    items?: true
+    isRead?: true
+    readTimestamp?: true
+    isClaim?: true
+    claimTimestamp?: true
+    isDelete?: true
+    deleteTimestamp?: true
+    sentTimestamp?: true
   }
 
-  export type AuctionCountAggregateInputType = {
+  export type MailCountAggregateInputType = {
     id?: true
-    buyoutPrice?: true
-    bidPrice?: true
-    startBidPrice?: true
-    sellerId?: true
-    sellerName?: true
-    isEnd?: true
-    isBuyout?: true
-    buyerId?: true
-    buyerName?: true
-    itemDataId?: true
-    itemLevel?: true
-    itemAmount?: true
-    itemDurability?: true
-    itemExp?: true
-    itemLockRemainsDuration?: true
-    itemExpireTime?: true
-    itemRandomSeed?: true
-    itemSockets?: true
-    endedAt?: true
-    createdAt?: true
+    eventId?: true
+    senderId?: true
+    senderName?: true
+    receiverId?: true
+    title?: true
+    content?: true
+    gold?: true
+    cash?: true
+    currencies?: true
+    items?: true
+    isRead?: true
+    readTimestamp?: true
+    isClaim?: true
+    claimTimestamp?: true
+    isDelete?: true
+    deleteTimestamp?: true
+    sentTimestamp?: true
     _all?: true
   }
 
-  export type AuctionAggregateArgs = {
+  export type MailAggregateArgs = {
     /**
-     * Filter which auction to aggregate.
+     * Filter which mail to aggregate.
     **/
-    where?: auctionWhereInput
+    where?: mailWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of auctions to fetch.
+     * Determine the order of mail to fetch.
     **/
-    orderBy?: Enumerable<auctionOrderByInput>
+    orderBy?: Enumerable<mailOrderByInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
     **/
-    cursor?: auctionWhereUniqueInput
+    cursor?: mailWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` auctions from the position of the cursor.
+     * Take `±n` mail from the position of the cursor.
     **/
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` auctions.
+     * Skip the first `n` mail.
     **/
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned auctions
+     * Count returned mail
     **/
-    count?: true | AuctionCountAggregateInputType
+    count?: true | MailCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to average
     **/
-    avg?: AuctionAvgAggregateInputType
+    avg?: MailAvgAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to sum
     **/
-    sum?: AuctionSumAggregateInputType
+    sum?: MailSumAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    min?: AuctionMinAggregateInputType
+    min?: MailMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    max?: AuctionMaxAggregateInputType
+    max?: MailMaxAggregateInputType
   }
 
-  export type GetAuctionAggregateType<T extends AuctionAggregateArgs> = {
-    [P in keyof T & keyof AggregateAuction]: P extends 'count'
+  export type GetMailAggregateType<T extends MailAggregateArgs> = {
+    [P in keyof T & keyof AggregateMail]: P extends 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateAuction[P]>
-      : GetScalarType<T[P], AggregateAuction[P]>
+        : GetScalarType<T[P], AggregateMail[P]>
+      : GetScalarType<T[P], AggregateMail[P]>
   }
 
 
     
     
-  export type AuctionGroupByArgs = {
-    where?: auctionWhereInput
-    orderBy?: Enumerable<auctionOrderByInput>
-    by: Array<AuctionScalarFieldEnum>
-    having?: auctionScalarWhereWithAggregatesInput
+  export type MailGroupByArgs = {
+    where?: mailWhereInput
+    orderBy?: Enumerable<mailOrderByInput>
+    by: Array<MailScalarFieldEnum>
+    having?: mailScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    count?: AuctionCountAggregateInputType | true
-    avg?: AuctionAvgAggregateInputType
-    sum?: AuctionSumAggregateInputType
-    min?: AuctionMinAggregateInputType
-    max?: AuctionMaxAggregateInputType
+    count?: MailCountAggregateInputType | true
+    avg?: MailAvgAggregateInputType
+    sum?: MailSumAggregateInputType
+    min?: MailMinAggregateInputType
+    max?: MailMaxAggregateInputType
   }
 
 
-  export type AuctionGroupByOutputType = {
-    id: number
-    buyoutPrice: number
-    bidPrice: number
-    startBidPrice: number
-    sellerId: string
-    sellerName: string
-    isEnd: boolean
-    isBuyout: boolean
-    buyerId: string
-    buyerName: string
-    itemDataId: number
-    itemLevel: number
-    itemAmount: number
-    itemDurability: number
-    itemExp: number
-    itemLockRemainsDuration: number
-    itemExpireTime: bigint
-    itemRandomSeed: number
-    itemSockets: string
-    endedAt: Date | null
-    createdAt: Date
-    count: AuctionCountAggregateOutputType | null
-    avg: AuctionAvgAggregateOutputType | null
-    sum: AuctionSumAggregateOutputType | null
-    min: AuctionMinAggregateOutputType | null
-    max: AuctionMaxAggregateOutputType | null
-  }
-
-  type GetAuctionGroupByPayload<T extends AuctionGroupByArgs> = Promise<Array<
-    PickArray<AuctionGroupByOutputType, T['by']> & {
-      [P in ((keyof T) & (keyof AuctionGroupByOutputType))]: GetScalarType<T[P], AuctionGroupByOutputType[P]>
-    }
-  >>
-    
-
-  export type auctionSelect = {
-    id?: boolean
-    buyoutPrice?: boolean
-    bidPrice?: boolean
-    startBidPrice?: boolean
-    sellerId?: boolean
-    sellerName?: boolean
-    isEnd?: boolean
-    isBuyout?: boolean
-    buyerId?: boolean
-    buyerName?: boolean
-    itemDataId?: boolean
-    itemLevel?: boolean
-    itemAmount?: boolean
-    itemDurability?: boolean
-    itemExp?: boolean
-    itemLockRemainsDuration?: boolean
-    itemExpireTime?: boolean
-    itemRandomSeed?: boolean
-    itemSockets?: boolean
-    endedAt?: boolean
-    createdAt?: boolean
-  }
-
-  export type auctionGetPayload<
-    S extends boolean | null | undefined | auctionArgs,
-    U = keyof S
-      > = S extends true
-        ? auction
-    : S extends undefined
-    ? never
-    : S extends auctionArgs | auctionFindManyArgs
-    ?'include' extends U
-    ? auction 
-    : 'select' extends U
-    ? {
-    [P in TrueKeys<S['select']>]: P extends keyof auction ?auction [P]
-  : 
-     never
-  } 
-    : auction
-  : auction
-
-
-  type auctionCountArgs = Merge<
-    Omit<auctionFindManyArgs, 'select' | 'include'> & {
-      select?: AuctionCountAggregateInputType | true
-    }
-  >
-
-  export interface auctionDelegate<GlobalRejectSettings> {
-    /**
-     * Find zero or one Auction that matches the filter.
-     * @param {auctionFindUniqueArgs} args - Arguments to find a Auction
-     * @example
-     * // Get one Auction
-     * const auction = await prisma.auction.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUnique<T extends auctionFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, auctionFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'auction'> extends True ? CheckSelect<T, Prisma__auctionClient<auction>, Prisma__auctionClient<auctionGetPayload<T>>> : CheckSelect<T, Prisma__auctionClient<auction | null >, Prisma__auctionClient<auctionGetPayload<T> | null >>
-
-    /**
-     * Find the first Auction that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {auctionFindFirstArgs} args - Arguments to find a Auction
-     * @example
-     * // Get one Auction
-     * const auction = await prisma.auction.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirst<T extends auctionFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, auctionFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'auction'> extends True ? CheckSelect<T, Prisma__auctionClient<auction>, Prisma__auctionClient<auctionGetPayload<T>>> : CheckSelect<T, Prisma__auctionClient<auction | null >, Prisma__auctionClient<auctionGetPayload<T> | null >>
-
-    /**
-     * Find zero or more Auctions that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {auctionFindManyArgs=} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Auctions
-     * const auctions = await prisma.auction.findMany()
-     * 
-     * // Get first 10 Auctions
-     * const auctions = await prisma.auction.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const auctionWithIdOnly = await prisma.auction.findMany({ select: { id: true } })
-     * 
-    **/
-    findMany<T extends auctionFindManyArgs>(
-      args?: SelectSubset<T, auctionFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<auction>>, PrismaPromise<Array<auctionGetPayload<T>>>>
-
-    /**
-     * Create a Auction.
-     * @param {auctionCreateArgs} args - Arguments to create a Auction.
-     * @example
-     * // Create one Auction
-     * const Auction = await prisma.auction.create({
-     *   data: {
-     *     // ... data to create a Auction
-     *   }
-     * })
-     * 
-    **/
-    create<T extends auctionCreateArgs>(
-      args: SelectSubset<T, auctionCreateArgs>
-    ): CheckSelect<T, Prisma__auctionClient<auction>, Prisma__auctionClient<auctionGetPayload<T>>>
-
-    /**
-     * Create many Auctions.
-     *     @param {auctionCreateManyArgs} args - Arguments to create many Auctions.
-     *     @example
-     *     // Create many Auctions
-     *     const auction = await prisma.auction.createMany({
-     *       data: {
-     *         // ... provide data here
-     *       }
-     *     })
-     *     
-    **/
-    createMany<T extends auctionCreateManyArgs>(
-      args?: SelectSubset<T, auctionCreateManyArgs>
-    ): PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a Auction.
-     * @param {auctionDeleteArgs} args - Arguments to delete one Auction.
-     * @example
-     * // Delete one Auction
-     * const Auction = await prisma.auction.delete({
-     *   where: {
-     *     // ... filter to delete one Auction
-     *   }
-     * })
-     * 
-    **/
-    delete<T extends auctionDeleteArgs>(
-      args: SelectSubset<T, auctionDeleteArgs>
-    ): CheckSelect<T, Prisma__auctionClient<auction>, Prisma__auctionClient<auctionGetPayload<T>>>
-
-    /**
-     * Update one Auction.
-     * @param {auctionUpdateArgs} args - Arguments to update one Auction.
-     * @example
-     * // Update one Auction
-     * const auction = await prisma.auction.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    update<T extends auctionUpdateArgs>(
-      args: SelectSubset<T, auctionUpdateArgs>
-    ): CheckSelect<T, Prisma__auctionClient<auction>, Prisma__auctionClient<auctionGetPayload<T>>>
-
-    /**
-     * Delete zero or more Auctions.
-     * @param {auctionDeleteManyArgs} args - Arguments to filter Auctions to delete.
-     * @example
-     * // Delete a few Auctions
-     * const { count } = await prisma.auction.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-    **/
-    deleteMany<T extends auctionDeleteManyArgs>(
-      args?: SelectSubset<T, auctionDeleteManyArgs>
-    ): PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Auctions.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {auctionUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Auctions
-     * const auction = await prisma.auction.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    updateMany<T extends auctionUpdateManyArgs>(
-      args: SelectSubset<T, auctionUpdateManyArgs>
-    ): PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one Auction.
-     * @param {auctionUpsertArgs} args - Arguments to update or create a Auction.
-     * @example
-     * // Update or create a Auction
-     * const auction = await prisma.auction.upsert({
-     *   create: {
-     *     // ... data to create a Auction
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Auction we want to update
-     *   }
-     * })
-    **/
-    upsert<T extends auctionUpsertArgs>(
-      args: SelectSubset<T, auctionUpsertArgs>
-    ): CheckSelect<T, Prisma__auctionClient<auction>, Prisma__auctionClient<auctionGetPayload<T>>>
-
-    /**
-     * Count the number of Auctions.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {auctionCountArgs} args - Arguments to filter Auctions to count.
-     * @example
-     * // Count the number of Auctions
-     * const count = await prisma.auction.count({
-     *   where: {
-     *     // ... the filter for the Auctions we want to count
-     *   }
-     * })
-    **/
-    count<T extends auctionCountArgs>(
-      args?: Subset<T, auctionCountArgs>,
-    ): PrismaPromise<
-      T extends _Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], AuctionCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Auction.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AuctionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends AuctionAggregateArgs>(args: Subset<T, AuctionAggregateArgs>): PrismaPromise<GetAuctionAggregateType<T>>
-
-    /**
-     * Group by Auction.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {AuctionGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends AuctionGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: AuctionGroupByArgs['orderBy'] }
-        : { orderBy?: AuctionGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends TupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, AuctionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAuctionGroupByPayload<T> : Promise<InputErrors>
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for auction.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in 
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export class Prisma__auctionClient<T> implements PrismaPromise<T> {
-    [prisma]: true;
-    private readonly _dmmf;
-    private readonly _fetcher;
-    private readonly _queryType;
-    private readonly _rootField;
-    private readonly _clientMethod;
-    private readonly _args;
-    private readonly _dataPath;
-    private readonly _errorFormat;
-    private readonly _measurePerformance?;
-    private _isList;
-    private _callsite;
-    private _requestPromise?;
-    constructor(_dmmf: runtime.DMMFClass, _fetcher: PrismaClientFetcher, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-    readonly [Symbol.toStringTag]: 'PrismaClientPromise';
-
-
-    private get _document();
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
-  }
-
-  // Custom InputTypes
-
-  /**
-   * auction findUnique
-   */
-  export type auctionFindUniqueArgs = {
-    /**
-     * Select specific fields to fetch from the auction
-    **/
-    select?: auctionSelect | null
-    /**
-     * Throw an Error if a auction can't be found
-    **/
-    rejectOnNotFound?: RejectOnNotFound
-    /**
-     * Filter, which auction to fetch.
-    **/
-    where: auctionWhereUniqueInput
-  }
-
-
-  /**
-   * auction findFirst
-   */
-  export type auctionFindFirstArgs = {
-    /**
-     * Select specific fields to fetch from the auction
-    **/
-    select?: auctionSelect | null
-    /**
-     * Throw an Error if a auction can't be found
-    **/
-    rejectOnNotFound?: RejectOnNotFound
-    /**
-     * Filter, which auction to fetch.
-    **/
-    where?: auctionWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of auctions to fetch.
-    **/
-    orderBy?: Enumerable<auctionOrderByInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for auctions.
-    **/
-    cursor?: auctionWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` auctions from the position of the cursor.
-    **/
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` auctions.
-    **/
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of auctions.
-    **/
-    distinct?: Enumerable<AuctionScalarFieldEnum>
-  }
-
-
-  /**
-   * auction findMany
-   */
-  export type auctionFindManyArgs = {
-    /**
-     * Select specific fields to fetch from the auction
-    **/
-    select?: auctionSelect | null
-    /**
-     * Filter, which auctions to fetch.
-    **/
-    where?: auctionWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of auctions to fetch.
-    **/
-    orderBy?: Enumerable<auctionOrderByInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing auctions.
-    **/
-    cursor?: auctionWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` auctions from the position of the cursor.
-    **/
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` auctions.
-    **/
-    skip?: number
-    distinct?: Enumerable<AuctionScalarFieldEnum>
-  }
-
-
-  /**
-   * auction create
-   */
-  export type auctionCreateArgs = {
-    /**
-     * Select specific fields to fetch from the auction
-    **/
-    select?: auctionSelect | null
-    /**
-     * The data needed to create a auction.
-    **/
-    data: XOR<auctionCreateInput, auctionUncheckedCreateInput>
-  }
-
-
-  /**
-   * auction createMany
-   */
-  export type auctionCreateManyArgs = {
-    data: Enumerable<auctionCreateManyInput>
-    skipDuplicates?: boolean
-  }
-
-
-  /**
-   * auction update
-   */
-  export type auctionUpdateArgs = {
-    /**
-     * Select specific fields to fetch from the auction
-    **/
-    select?: auctionSelect | null
-    /**
-     * The data needed to update a auction.
-    **/
-    data: XOR<auctionUpdateInput, auctionUncheckedUpdateInput>
-    /**
-     * Choose, which auction to update.
-    **/
-    where: auctionWhereUniqueInput
-  }
-
-
-  /**
-   * auction updateMany
-   */
-  export type auctionUpdateManyArgs = {
-    data: XOR<auctionUpdateManyMutationInput, auctionUncheckedUpdateManyInput>
-    where?: auctionWhereInput
-  }
-
-
-  /**
-   * auction upsert
-   */
-  export type auctionUpsertArgs = {
-    /**
-     * Select specific fields to fetch from the auction
-    **/
-    select?: auctionSelect | null
-    /**
-     * The filter to search for the auction to update in case it exists.
-    **/
-    where: auctionWhereUniqueInput
-    /**
-     * In case the auction found by the `where` argument doesn't exist, create a new auction with this data.
-    **/
-    create: XOR<auctionCreateInput, auctionUncheckedCreateInput>
-    /**
-     * In case the auction was found with the provided `where` argument, update it with this data.
-    **/
-    update: XOR<auctionUpdateInput, auctionUncheckedUpdateInput>
-  }
-
-
-  /**
-   * auction delete
-   */
-  export type auctionDeleteArgs = {
-    /**
-     * Select specific fields to fetch from the auction
-    **/
-    select?: auctionSelect | null
-    /**
-     * Filter which auction to delete.
-    **/
-    where: auctionWhereUniqueInput
-  }
-
-
-  /**
-   * auction deleteMany
-   */
-  export type auctionDeleteManyArgs = {
-    where?: auctionWhereInput
-  }
-
-
-  /**
-   * auction without action
-   */
-  export type auctionArgs = {
-    /**
-     * Select specific fields to fetch from the auction
-    **/
-    select?: auctionSelect | null
-  }
-
-
-
-  /**
-   * Model auction_bid_logs
-   */
-
-
-  export type AggregateAuction_bid_logs = {
-    count: Auction_bid_logsCountAggregateOutputType | null
-    avg: Auction_bid_logsAvgAggregateOutputType | null
-    sum: Auction_bid_logsSumAggregateOutputType | null
-    min: Auction_bid_logsMinAggregateOutputType | null
-    max: Auction_bid_logsMaxAggregateOutputType | null
-  }
-
-  export type Auction_bid_logsAvgAggregateOutputType = {
-    id: number | null
-    auctionId: number | null
-    bidPrice: number | null
-  }
-
-  export type Auction_bid_logsSumAggregateOutputType = {
-    id: bigint | null
-    auctionId: number | null
-    bidPrice: number | null
-  }
-
-  export type Auction_bid_logsMinAggregateOutputType = {
-    id: bigint | null
-    auctionId: number | null
-    buyerId: string | null
-    buyerName: string | null
-    bidPrice: number | null
-    isBuyout: boolean | null
-  }
-
-  export type Auction_bid_logsMaxAggregateOutputType = {
-    id: bigint | null
-    auctionId: number | null
-    buyerId: string | null
-    buyerName: string | null
-    bidPrice: number | null
-    isBuyout: boolean | null
-  }
-
-  export type Auction_bid_logsCountAggregateOutputType = {
-    id: number
-    auctionId: number
-    buyerId: number
-    buyerName: number
-    bidPrice: number
-    isBuyout: number
-    _all: number
-  }
-
-
-  export type Auction_bid_logsAvgAggregateInputType = {
-    id?: true
-    auctionId?: true
-    bidPrice?: true
-  }
-
-  export type Auction_bid_logsSumAggregateInputType = {
-    id?: true
-    auctionId?: true
-    bidPrice?: true
-  }
-
-  export type Auction_bid_logsMinAggregateInputType = {
-    id?: true
-    auctionId?: true
-    buyerId?: true
-    buyerName?: true
-    bidPrice?: true
-    isBuyout?: true
-  }
-
-  export type Auction_bid_logsMaxAggregateInputType = {
-    id?: true
-    auctionId?: true
-    buyerId?: true
-    buyerName?: true
-    bidPrice?: true
-    isBuyout?: true
-  }
-
-  export type Auction_bid_logsCountAggregateInputType = {
-    id?: true
-    auctionId?: true
-    buyerId?: true
-    buyerName?: true
-    bidPrice?: true
-    isBuyout?: true
-    _all?: true
-  }
-
-  export type Auction_bid_logsAggregateArgs = {
-    /**
-     * Filter which auction_bid_logs to aggregate.
-    **/
-    where?: auction_bid_logsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of auction_bid_logs to fetch.
-    **/
-    orderBy?: Enumerable<auction_bid_logsOrderByInput>
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-    **/
-    cursor?: auction_bid_logsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` auction_bid_logs from the position of the cursor.
-    **/
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` auction_bid_logs.
-    **/
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned auction_bid_logs
-    **/
-    count?: true | Auction_bid_logsCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    avg?: Auction_bid_logsAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    sum?: Auction_bid_logsSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    min?: Auction_bid_logsMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    max?: Auction_bid_logsMaxAggregateInputType
-  }
-
-  export type GetAuction_bid_logsAggregateType<T extends Auction_bid_logsAggregateArgs> = {
-    [P in keyof T & keyof AggregateAuction_bid_logs]: P extends 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateAuction_bid_logs[P]>
-      : GetScalarType<T[P], AggregateAuction_bid_logs[P]>
-  }
-
-
-    
-    
-  export type Auction_bid_logsGroupByArgs = {
-    where?: auction_bid_logsWhereInput
-    orderBy?: Enumerable<auction_bid_logsOrderByInput>
-    by: Array<Auction_bid_logsScalarFieldEnum>
-    having?: auction_bid_logsScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    count?: Auction_bid_logsCountAggregateInputType | true
-    avg?: Auction_bid_logsAvgAggregateInputType
-    sum?: Auction_bid_logsSumAggregateInputType
-    min?: Auction_bid_logsMinAggregateInputType
-    max?: Auction_bid_logsMaxAggregateInputType
-  }
-
-
-  export type Auction_bid_logsGroupByOutputType = {
+  export type MailGroupByOutputType = {
     id: bigint
-    auctionId: number
-    buyerId: string
-    buyerName: string
-    bidPrice: number
-    isBuyout: boolean
-    count: Auction_bid_logsCountAggregateOutputType | null
-    avg: Auction_bid_logsAvgAggregateOutputType | null
-    sum: Auction_bid_logsSumAggregateOutputType | null
-    min: Auction_bid_logsMinAggregateOutputType | null
-    max: Auction_bid_logsMaxAggregateOutputType | null
+    eventId: string
+    senderId: string
+    senderName: string
+    receiverId: string
+    title: string
+    content: string
+    gold: number
+    cash: number
+    currencies: string
+    items: string
+    isRead: boolean
+    readTimestamp: Date | null
+    isClaim: boolean
+    claimTimestamp: Date | null
+    isDelete: boolean
+    deleteTimestamp: Date | null
+    sentTimestamp: Date
+    count: MailCountAggregateOutputType | null
+    avg: MailAvgAggregateOutputType | null
+    sum: MailSumAggregateOutputType | null
+    min: MailMinAggregateOutputType | null
+    max: MailMaxAggregateOutputType | null
   }
 
-  type GetAuction_bid_logsGroupByPayload<T extends Auction_bid_logsGroupByArgs> = Promise<Array<
-    PickArray<Auction_bid_logsGroupByOutputType, T['by']> & {
-      [P in ((keyof T) & (keyof Auction_bid_logsGroupByOutputType))]: GetScalarType<T[P], Auction_bid_logsGroupByOutputType[P]>
+  type GetMailGroupByPayload<T extends MailGroupByArgs> = Promise<Array<
+    PickArray<MailGroupByOutputType, T['by']> & {
+      [P in ((keyof T) & (keyof MailGroupByOutputType))]: GetScalarType<T[P], MailGroupByOutputType[P]>
     }
   >>
     
 
-  export type auction_bid_logsSelect = {
+  export type mailSelect = {
     id?: boolean
-    auctionId?: boolean
-    buyerId?: boolean
-    buyerName?: boolean
-    bidPrice?: boolean
-    isBuyout?: boolean
+    eventId?: boolean
+    senderId?: boolean
+    senderName?: boolean
+    receiverId?: boolean
+    title?: boolean
+    content?: boolean
+    gold?: boolean
+    cash?: boolean
+    currencies?: boolean
+    items?: boolean
+    isRead?: boolean
+    readTimestamp?: boolean
+    isClaim?: boolean
+    claimTimestamp?: boolean
+    isDelete?: boolean
+    deleteTimestamp?: boolean
+    sentTimestamp?: boolean
   }
 
-  export type auction_bid_logsGetPayload<
-    S extends boolean | null | undefined | auction_bid_logsArgs,
+  export type mailGetPayload<
+    S extends boolean | null | undefined | mailArgs,
     U = keyof S
       > = S extends true
-        ? auction_bid_logs
+        ? mail
     : S extends undefined
     ? never
-    : S extends auction_bid_logsArgs | auction_bid_logsFindManyArgs
+    : S extends mailArgs | mailFindManyArgs
     ?'include' extends U
-    ? auction_bid_logs 
+    ? mail 
     : 'select' extends U
     ? {
-    [P in TrueKeys<S['select']>]: P extends keyof auction_bid_logs ?auction_bid_logs [P]
+    [P in TrueKeys<S['select']>]: P extends keyof mail ?mail [P]
   : 
      never
   } 
-    : auction_bid_logs
-  : auction_bid_logs
+    : mail
+  : mail
 
 
-  type auction_bid_logsCountArgs = Merge<
-    Omit<auction_bid_logsFindManyArgs, 'select' | 'include'> & {
-      select?: Auction_bid_logsCountAggregateInputType | true
+  type mailCountArgs = Merge<
+    Omit<mailFindManyArgs, 'select' | 'include'> & {
+      select?: MailCountAggregateInputType | true
     }
   >
 
-  export interface auction_bid_logsDelegate<GlobalRejectSettings> {
+  export interface mailDelegate<GlobalRejectSettings> {
     /**
-     * Find zero or one Auction_bid_logs that matches the filter.
-     * @param {auction_bid_logsFindUniqueArgs} args - Arguments to find a Auction_bid_logs
+     * Find zero or one Mail that matches the filter.
+     * @param {mailFindUniqueArgs} args - Arguments to find a Mail
      * @example
-     * // Get one Auction_bid_logs
-     * const auction_bid_logs = await prisma.auction_bid_logs.findUnique({
+     * // Get one Mail
+     * const mail = await prisma.mail.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findUnique<T extends auction_bid_logsFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args: SelectSubset<T, auction_bid_logsFindUniqueArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'auction_bid_logs'> extends True ? CheckSelect<T, Prisma__auction_bid_logsClient<auction_bid_logs>, Prisma__auction_bid_logsClient<auction_bid_logsGetPayload<T>>> : CheckSelect<T, Prisma__auction_bid_logsClient<auction_bid_logs | null >, Prisma__auction_bid_logsClient<auction_bid_logsGetPayload<T> | null >>
+    findUnique<T extends mailFindUniqueArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args: SelectSubset<T, mailFindUniqueArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findUnique', 'mail'> extends True ? CheckSelect<T, Prisma__mailClient<mail>, Prisma__mailClient<mailGetPayload<T>>> : CheckSelect<T, Prisma__mailClient<mail | null >, Prisma__mailClient<mailGetPayload<T> | null >>
 
     /**
-     * Find the first Auction_bid_logs that matches the filter.
+     * Find the first Mail that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {auction_bid_logsFindFirstArgs} args - Arguments to find a Auction_bid_logs
+     * @param {mailFindFirstArgs} args - Arguments to find a Mail
      * @example
-     * // Get one Auction_bid_logs
-     * const auction_bid_logs = await prisma.auction_bid_logs.findFirst({
+     * // Get one Mail
+     * const mail = await prisma.mail.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
     **/
-    findFirst<T extends auction_bid_logsFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
-      args?: SelectSubset<T, auction_bid_logsFindFirstArgs>
-    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'auction_bid_logs'> extends True ? CheckSelect<T, Prisma__auction_bid_logsClient<auction_bid_logs>, Prisma__auction_bid_logsClient<auction_bid_logsGetPayload<T>>> : CheckSelect<T, Prisma__auction_bid_logsClient<auction_bid_logs | null >, Prisma__auction_bid_logsClient<auction_bid_logsGetPayload<T> | null >>
+    findFirst<T extends mailFindFirstArgs,  LocalRejectSettings = T["rejectOnNotFound"] extends RejectOnNotFound ? T['rejectOnNotFound'] : undefined>(
+      args?: SelectSubset<T, mailFindFirstArgs>
+    ): HasReject<GlobalRejectSettings, LocalRejectSettings, 'findFirst', 'mail'> extends True ? CheckSelect<T, Prisma__mailClient<mail>, Prisma__mailClient<mailGetPayload<T>>> : CheckSelect<T, Prisma__mailClient<mail | null >, Prisma__mailClient<mailGetPayload<T> | null >>
 
     /**
-     * Find zero or more Auction_bid_logs that matches the filter.
+     * Find zero or more Mail that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {auction_bid_logsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @param {mailFindManyArgs=} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all Auction_bid_logs
-     * const auction_bid_logs = await prisma.auction_bid_logs.findMany()
+     * // Get all Mail
+     * const mail = await prisma.mail.findMany()
      * 
-     * // Get first 10 Auction_bid_logs
-     * const auction_bid_logs = await prisma.auction_bid_logs.findMany({ take: 10 })
+     * // Get first 10 Mail
+     * const mail = await prisma.mail.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const auction_bid_logsWithIdOnly = await prisma.auction_bid_logs.findMany({ select: { id: true } })
+     * const mailWithIdOnly = await prisma.mail.findMany({ select: { id: true } })
      * 
     **/
-    findMany<T extends auction_bid_logsFindManyArgs>(
-      args?: SelectSubset<T, auction_bid_logsFindManyArgs>
-    ): CheckSelect<T, PrismaPromise<Array<auction_bid_logs>>, PrismaPromise<Array<auction_bid_logsGetPayload<T>>>>
+    findMany<T extends mailFindManyArgs>(
+      args?: SelectSubset<T, mailFindManyArgs>
+    ): CheckSelect<T, PrismaPromise<Array<mail>>, PrismaPromise<Array<mailGetPayload<T>>>>
 
     /**
-     * Create a Auction_bid_logs.
-     * @param {auction_bid_logsCreateArgs} args - Arguments to create a Auction_bid_logs.
+     * Create a Mail.
+     * @param {mailCreateArgs} args - Arguments to create a Mail.
      * @example
-     * // Create one Auction_bid_logs
-     * const Auction_bid_logs = await prisma.auction_bid_logs.create({
+     * // Create one Mail
+     * const Mail = await prisma.mail.create({
      *   data: {
-     *     // ... data to create a Auction_bid_logs
+     *     // ... data to create a Mail
      *   }
      * })
      * 
     **/
-    create<T extends auction_bid_logsCreateArgs>(
-      args: SelectSubset<T, auction_bid_logsCreateArgs>
-    ): CheckSelect<T, Prisma__auction_bid_logsClient<auction_bid_logs>, Prisma__auction_bid_logsClient<auction_bid_logsGetPayload<T>>>
+    create<T extends mailCreateArgs>(
+      args: SelectSubset<T, mailCreateArgs>
+    ): CheckSelect<T, Prisma__mailClient<mail>, Prisma__mailClient<mailGetPayload<T>>>
 
     /**
-     * Create many Auction_bid_logs.
-     *     @param {auction_bid_logsCreateManyArgs} args - Arguments to create many Auction_bid_logs.
+     * Create many Mail.
+     *     @param {mailCreateManyArgs} args - Arguments to create many Mail.
      *     @example
-     *     // Create many Auction_bid_logs
-     *     const auction_bid_logs = await prisma.auction_bid_logs.createMany({
+     *     // Create many Mail
+     *     const mail = await prisma.mail.createMany({
      *       data: {
      *         // ... provide data here
      *       }
      *     })
      *     
     **/
-    createMany<T extends auction_bid_logsCreateManyArgs>(
-      args?: SelectSubset<T, auction_bid_logsCreateManyArgs>
+    createMany<T extends mailCreateManyArgs>(
+      args?: SelectSubset<T, mailCreateManyArgs>
     ): PrismaPromise<BatchPayload>
 
     /**
-     * Delete a Auction_bid_logs.
-     * @param {auction_bid_logsDeleteArgs} args - Arguments to delete one Auction_bid_logs.
+     * Delete a Mail.
+     * @param {mailDeleteArgs} args - Arguments to delete one Mail.
      * @example
-     * // Delete one Auction_bid_logs
-     * const Auction_bid_logs = await prisma.auction_bid_logs.delete({
+     * // Delete one Mail
+     * const Mail = await prisma.mail.delete({
      *   where: {
-     *     // ... filter to delete one Auction_bid_logs
+     *     // ... filter to delete one Mail
      *   }
      * })
      * 
     **/
-    delete<T extends auction_bid_logsDeleteArgs>(
-      args: SelectSubset<T, auction_bid_logsDeleteArgs>
-    ): CheckSelect<T, Prisma__auction_bid_logsClient<auction_bid_logs>, Prisma__auction_bid_logsClient<auction_bid_logsGetPayload<T>>>
+    delete<T extends mailDeleteArgs>(
+      args: SelectSubset<T, mailDeleteArgs>
+    ): CheckSelect<T, Prisma__mailClient<mail>, Prisma__mailClient<mailGetPayload<T>>>
 
     /**
-     * Update one Auction_bid_logs.
-     * @param {auction_bid_logsUpdateArgs} args - Arguments to update one Auction_bid_logs.
+     * Update one Mail.
+     * @param {mailUpdateArgs} args - Arguments to update one Mail.
      * @example
-     * // Update one Auction_bid_logs
-     * const auction_bid_logs = await prisma.auction_bid_logs.update({
+     * // Update one Mail
+     * const mail = await prisma.mail.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -2015,34 +1119,34 @@ export namespace Prisma {
      * })
      * 
     **/
-    update<T extends auction_bid_logsUpdateArgs>(
-      args: SelectSubset<T, auction_bid_logsUpdateArgs>
-    ): CheckSelect<T, Prisma__auction_bid_logsClient<auction_bid_logs>, Prisma__auction_bid_logsClient<auction_bid_logsGetPayload<T>>>
+    update<T extends mailUpdateArgs>(
+      args: SelectSubset<T, mailUpdateArgs>
+    ): CheckSelect<T, Prisma__mailClient<mail>, Prisma__mailClient<mailGetPayload<T>>>
 
     /**
-     * Delete zero or more Auction_bid_logs.
-     * @param {auction_bid_logsDeleteManyArgs} args - Arguments to filter Auction_bid_logs to delete.
+     * Delete zero or more Mail.
+     * @param {mailDeleteManyArgs} args - Arguments to filter Mail to delete.
      * @example
-     * // Delete a few Auction_bid_logs
-     * const { count } = await prisma.auction_bid_logs.deleteMany({
+     * // Delete a few Mail
+     * const { count } = await prisma.mail.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
     **/
-    deleteMany<T extends auction_bid_logsDeleteManyArgs>(
-      args?: SelectSubset<T, auction_bid_logsDeleteManyArgs>
+    deleteMany<T extends mailDeleteManyArgs>(
+      args?: SelectSubset<T, mailDeleteManyArgs>
     ): PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more Auction_bid_logs.
+     * Update zero or more Mail.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {auction_bid_logsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {mailUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many Auction_bid_logs
-     * const auction_bid_logs = await prisma.auction_bid_logs.updateMany({
+     * // Update many Mail
+     * const mail = await prisma.mail.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -2052,59 +1156,59 @@ export namespace Prisma {
      * })
      * 
     **/
-    updateMany<T extends auction_bid_logsUpdateManyArgs>(
-      args: SelectSubset<T, auction_bid_logsUpdateManyArgs>
+    updateMany<T extends mailUpdateManyArgs>(
+      args: SelectSubset<T, mailUpdateManyArgs>
     ): PrismaPromise<BatchPayload>
 
     /**
-     * Create or update one Auction_bid_logs.
-     * @param {auction_bid_logsUpsertArgs} args - Arguments to update or create a Auction_bid_logs.
+     * Create or update one Mail.
+     * @param {mailUpsertArgs} args - Arguments to update or create a Mail.
      * @example
-     * // Update or create a Auction_bid_logs
-     * const auction_bid_logs = await prisma.auction_bid_logs.upsert({
+     * // Update or create a Mail
+     * const mail = await prisma.mail.upsert({
      *   create: {
-     *     // ... data to create a Auction_bid_logs
+     *     // ... data to create a Mail
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the Auction_bid_logs we want to update
+     *     // ... the filter for the Mail we want to update
      *   }
      * })
     **/
-    upsert<T extends auction_bid_logsUpsertArgs>(
-      args: SelectSubset<T, auction_bid_logsUpsertArgs>
-    ): CheckSelect<T, Prisma__auction_bid_logsClient<auction_bid_logs>, Prisma__auction_bid_logsClient<auction_bid_logsGetPayload<T>>>
+    upsert<T extends mailUpsertArgs>(
+      args: SelectSubset<T, mailUpsertArgs>
+    ): CheckSelect<T, Prisma__mailClient<mail>, Prisma__mailClient<mailGetPayload<T>>>
 
     /**
-     * Count the number of Auction_bid_logs.
+     * Count the number of Mail.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {auction_bid_logsCountArgs} args - Arguments to filter Auction_bid_logs to count.
+     * @param {mailCountArgs} args - Arguments to filter Mail to count.
      * @example
-     * // Count the number of Auction_bid_logs
-     * const count = await prisma.auction_bid_logs.count({
+     * // Count the number of Mail
+     * const count = await prisma.mail.count({
      *   where: {
-     *     // ... the filter for the Auction_bid_logs we want to count
+     *     // ... the filter for the Mail we want to count
      *   }
      * })
     **/
-    count<T extends auction_bid_logsCountArgs>(
-      args?: Subset<T, auction_bid_logsCountArgs>,
+    count<T extends mailCountArgs>(
+      args?: Subset<T, mailCountArgs>,
     ): PrismaPromise<
       T extends _Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], Auction_bid_logsCountAggregateOutputType>
+          : GetScalarType<T['select'], MailCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a Auction_bid_logs.
+     * Allows you to perform aggregations operations on a Mail.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {Auction_bid_logsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {MailAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -2124,13 +1228,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends Auction_bid_logsAggregateArgs>(args: Subset<T, Auction_bid_logsAggregateArgs>): PrismaPromise<GetAuction_bid_logsAggregateType<T>>
+    aggregate<T extends MailAggregateArgs>(args: Subset<T, MailAggregateArgs>): PrismaPromise<GetMailAggregateType<T>>
 
     /**
-     * Group by Auction_bid_logs.
+     * Group by Mail.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {Auction_bid_logsGroupByArgs} args - Group by arguments.
+     * @param {MailGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -2145,14 +1249,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends Auction_bid_logsGroupByArgs,
+      T extends MailGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: Auction_bid_logsGroupByArgs['orderBy'] }
-        : { orderBy?: Auction_bid_logsGroupByArgs['orderBy'] },
+        ? { orderBy: MailGroupByArgs['orderBy'] }
+        : { orderBy?: MailGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends TupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -2201,16 +1305,16 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, Auction_bid_logsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAuction_bid_logsGroupByPayload<T> : Promise<InputErrors>
+    >(args: SubsetIntersection<T, MailGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMailGroupByPayload<T> : Promise<InputErrors>
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for auction_bid_logs.
+   * The delegate class that acts as a "Promise-like" for mail.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in 
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export class Prisma__auction_bid_logsClient<T> implements PrismaPromise<T> {
+  export class Prisma__mailClient<T> implements PrismaPromise<T> {
     [prisma]: true;
     private readonly _dmmf;
     private readonly _fetcher;
@@ -2254,219 +1358,219 @@ export namespace Prisma {
   // Custom InputTypes
 
   /**
-   * auction_bid_logs findUnique
+   * mail findUnique
    */
-  export type auction_bid_logsFindUniqueArgs = {
+  export type mailFindUniqueArgs = {
     /**
-     * Select specific fields to fetch from the auction_bid_logs
+     * Select specific fields to fetch from the mail
     **/
-    select?: auction_bid_logsSelect | null
+    select?: mailSelect | null
     /**
-     * Throw an Error if a auction_bid_logs can't be found
+     * Throw an Error if a mail can't be found
     **/
     rejectOnNotFound?: RejectOnNotFound
     /**
-     * Filter, which auction_bid_logs to fetch.
+     * Filter, which mail to fetch.
     **/
-    where: auction_bid_logsWhereUniqueInput
+    where: mailWhereUniqueInput
   }
 
 
   /**
-   * auction_bid_logs findFirst
+   * mail findFirst
    */
-  export type auction_bid_logsFindFirstArgs = {
+  export type mailFindFirstArgs = {
     /**
-     * Select specific fields to fetch from the auction_bid_logs
+     * Select specific fields to fetch from the mail
     **/
-    select?: auction_bid_logsSelect | null
+    select?: mailSelect | null
     /**
-     * Throw an Error if a auction_bid_logs can't be found
+     * Throw an Error if a mail can't be found
     **/
     rejectOnNotFound?: RejectOnNotFound
     /**
-     * Filter, which auction_bid_logs to fetch.
+     * Filter, which mail to fetch.
     **/
-    where?: auction_bid_logsWhereInput
+    where?: mailWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of auction_bid_logs to fetch.
+     * Determine the order of mail to fetch.
     **/
-    orderBy?: Enumerable<auction_bid_logsOrderByInput>
+    orderBy?: Enumerable<mailOrderByInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for auction_bid_logs.
+     * Sets the position for searching for mail.
     **/
-    cursor?: auction_bid_logsWhereUniqueInput
+    cursor?: mailWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` auction_bid_logs from the position of the cursor.
+     * Take `±n` mail from the position of the cursor.
     **/
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` auction_bid_logs.
+     * Skip the first `n` mail.
     **/
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of auction_bid_logs.
+     * Filter by unique combinations of mail.
     **/
-    distinct?: Enumerable<Auction_bid_logsScalarFieldEnum>
+    distinct?: Enumerable<MailScalarFieldEnum>
   }
 
 
   /**
-   * auction_bid_logs findMany
+   * mail findMany
    */
-  export type auction_bid_logsFindManyArgs = {
+  export type mailFindManyArgs = {
     /**
-     * Select specific fields to fetch from the auction_bid_logs
+     * Select specific fields to fetch from the mail
     **/
-    select?: auction_bid_logsSelect | null
+    select?: mailSelect | null
     /**
-     * Filter, which auction_bid_logs to fetch.
+     * Filter, which mail to fetch.
     **/
-    where?: auction_bid_logsWhereInput
+    where?: mailWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of auction_bid_logs to fetch.
+     * Determine the order of mail to fetch.
     **/
-    orderBy?: Enumerable<auction_bid_logsOrderByInput>
+    orderBy?: Enumerable<mailOrderByInput>
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing auction_bid_logs.
+     * Sets the position for listing mail.
     **/
-    cursor?: auction_bid_logsWhereUniqueInput
+    cursor?: mailWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` auction_bid_logs from the position of the cursor.
+     * Take `±n` mail from the position of the cursor.
     **/
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` auction_bid_logs.
+     * Skip the first `n` mail.
     **/
     skip?: number
-    distinct?: Enumerable<Auction_bid_logsScalarFieldEnum>
+    distinct?: Enumerable<MailScalarFieldEnum>
   }
 
 
   /**
-   * auction_bid_logs create
+   * mail create
    */
-  export type auction_bid_logsCreateArgs = {
+  export type mailCreateArgs = {
     /**
-     * Select specific fields to fetch from the auction_bid_logs
+     * Select specific fields to fetch from the mail
     **/
-    select?: auction_bid_logsSelect | null
+    select?: mailSelect | null
     /**
-     * The data needed to create a auction_bid_logs.
+     * The data needed to create a mail.
     **/
-    data: XOR<auction_bid_logsCreateInput, auction_bid_logsUncheckedCreateInput>
+    data: XOR<mailCreateInput, mailUncheckedCreateInput>
   }
 
 
   /**
-   * auction_bid_logs createMany
+   * mail createMany
    */
-  export type auction_bid_logsCreateManyArgs = {
-    data: Enumerable<auction_bid_logsCreateManyInput>
+  export type mailCreateManyArgs = {
+    data: Enumerable<mailCreateManyInput>
     skipDuplicates?: boolean
   }
 
 
   /**
-   * auction_bid_logs update
+   * mail update
    */
-  export type auction_bid_logsUpdateArgs = {
+  export type mailUpdateArgs = {
     /**
-     * Select specific fields to fetch from the auction_bid_logs
+     * Select specific fields to fetch from the mail
     **/
-    select?: auction_bid_logsSelect | null
+    select?: mailSelect | null
     /**
-     * The data needed to update a auction_bid_logs.
+     * The data needed to update a mail.
     **/
-    data: XOR<auction_bid_logsUpdateInput, auction_bid_logsUncheckedUpdateInput>
+    data: XOR<mailUpdateInput, mailUncheckedUpdateInput>
     /**
-     * Choose, which auction_bid_logs to update.
+     * Choose, which mail to update.
     **/
-    where: auction_bid_logsWhereUniqueInput
+    where: mailWhereUniqueInput
   }
 
 
   /**
-   * auction_bid_logs updateMany
+   * mail updateMany
    */
-  export type auction_bid_logsUpdateManyArgs = {
-    data: XOR<auction_bid_logsUpdateManyMutationInput, auction_bid_logsUncheckedUpdateManyInput>
-    where?: auction_bid_logsWhereInput
+  export type mailUpdateManyArgs = {
+    data: XOR<mailUpdateManyMutationInput, mailUncheckedUpdateManyInput>
+    where?: mailWhereInput
   }
 
 
   /**
-   * auction_bid_logs upsert
+   * mail upsert
    */
-  export type auction_bid_logsUpsertArgs = {
+  export type mailUpsertArgs = {
     /**
-     * Select specific fields to fetch from the auction_bid_logs
+     * Select specific fields to fetch from the mail
     **/
-    select?: auction_bid_logsSelect | null
+    select?: mailSelect | null
     /**
-     * The filter to search for the auction_bid_logs to update in case it exists.
+     * The filter to search for the mail to update in case it exists.
     **/
-    where: auction_bid_logsWhereUniqueInput
+    where: mailWhereUniqueInput
     /**
-     * In case the auction_bid_logs found by the `where` argument doesn't exist, create a new auction_bid_logs with this data.
+     * In case the mail found by the `where` argument doesn't exist, create a new mail with this data.
     **/
-    create: XOR<auction_bid_logsCreateInput, auction_bid_logsUncheckedCreateInput>
+    create: XOR<mailCreateInput, mailUncheckedCreateInput>
     /**
-     * In case the auction_bid_logs was found with the provided `where` argument, update it with this data.
+     * In case the mail was found with the provided `where` argument, update it with this data.
     **/
-    update: XOR<auction_bid_logsUpdateInput, auction_bid_logsUncheckedUpdateInput>
+    update: XOR<mailUpdateInput, mailUncheckedUpdateInput>
   }
 
 
   /**
-   * auction_bid_logs delete
+   * mail delete
    */
-  export type auction_bid_logsDeleteArgs = {
+  export type mailDeleteArgs = {
     /**
-     * Select specific fields to fetch from the auction_bid_logs
+     * Select specific fields to fetch from the mail
     **/
-    select?: auction_bid_logsSelect | null
+    select?: mailSelect | null
     /**
-     * Filter which auction_bid_logs to delete.
+     * Filter which mail to delete.
     **/
-    where: auction_bid_logsWhereUniqueInput
+    where: mailWhereUniqueInput
   }
 
 
   /**
-   * auction_bid_logs deleteMany
+   * mail deleteMany
    */
-  export type auction_bid_logsDeleteManyArgs = {
-    where?: auction_bid_logsWhereInput
+  export type mailDeleteManyArgs = {
+    where?: mailWhereInput
   }
 
 
   /**
-   * auction_bid_logs without action
+   * mail without action
    */
-  export type auction_bid_logsArgs = {
+  export type mailArgs = {
     /**
-     * Select specific fields to fetch from the auction_bid_logs
+     * Select specific fields to fetch from the mail
     **/
-    select?: auction_bid_logsSelect | null
+    select?: mailSelect | null
   }
 
 
@@ -2478,43 +1582,28 @@ export namespace Prisma {
   // Based on
   // https://github.com/microsoft/TypeScript/issues/3192#issuecomment-261720275
 
-  export const AuctionScalarFieldEnum: {
+  export const MailScalarFieldEnum: {
     id: 'id',
-    buyoutPrice: 'buyoutPrice',
-    bidPrice: 'bidPrice',
-    startBidPrice: 'startBidPrice',
-    sellerId: 'sellerId',
-    sellerName: 'sellerName',
-    isEnd: 'isEnd',
-    isBuyout: 'isBuyout',
-    buyerId: 'buyerId',
-    buyerName: 'buyerName',
-    itemDataId: 'itemDataId',
-    itemLevel: 'itemLevel',
-    itemAmount: 'itemAmount',
-    itemDurability: 'itemDurability',
-    itemExp: 'itemExp',
-    itemLockRemainsDuration: 'itemLockRemainsDuration',
-    itemExpireTime: 'itemExpireTime',
-    itemRandomSeed: 'itemRandomSeed',
-    itemSockets: 'itemSockets',
-    endedAt: 'endedAt',
-    createdAt: 'createdAt'
+    eventId: 'eventId',
+    senderId: 'senderId',
+    senderName: 'senderName',
+    receiverId: 'receiverId',
+    title: 'title',
+    content: 'content',
+    gold: 'gold',
+    cash: 'cash',
+    currencies: 'currencies',
+    items: 'items',
+    isRead: 'isRead',
+    readTimestamp: 'readTimestamp',
+    isClaim: 'isClaim',
+    claimTimestamp: 'claimTimestamp',
+    isDelete: 'isDelete',
+    deleteTimestamp: 'deleteTimestamp',
+    sentTimestamp: 'sentTimestamp'
   };
 
-  export type AuctionScalarFieldEnum = (typeof AuctionScalarFieldEnum)[keyof typeof AuctionScalarFieldEnum]
-
-
-  export const Auction_bid_logsScalarFieldEnum: {
-    id: 'id',
-    auctionId: 'auctionId',
-    buyerId: 'buyerId',
-    buyerName: 'buyerName',
-    bidPrice: 'bidPrice',
-    isBuyout: 'isBuyout'
-  };
-
-  export type Auction_bid_logsScalarFieldEnum = (typeof Auction_bid_logsScalarFieldEnum)[keyof typeof Auction_bid_logsScalarFieldEnum]
+  export type MailScalarFieldEnum = (typeof MailScalarFieldEnum)[keyof typeof MailScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -2530,362 +1619,235 @@ export namespace Prisma {
    */
 
 
-  export type auctionWhereInput = {
-    AND?: Enumerable<auctionWhereInput>
-    OR?: Enumerable<auctionWhereInput>
-    NOT?: Enumerable<auctionWhereInput>
-    id?: IntFilter | number
-    buyoutPrice?: IntFilter | number
-    bidPrice?: IntFilter | number
-    startBidPrice?: IntFilter | number
-    sellerId?: StringFilter | string
-    sellerName?: StringFilter | string
-    isEnd?: BoolFilter | boolean
-    isBuyout?: BoolFilter | boolean
-    buyerId?: StringFilter | string
-    buyerName?: StringFilter | string
-    itemDataId?: IntFilter | number
-    itemLevel?: IntFilter | number
-    itemAmount?: IntFilter | number
-    itemDurability?: FloatFilter | number
-    itemExp?: IntFilter | number
-    itemLockRemainsDuration?: FloatFilter | number
-    itemExpireTime?: BigIntFilter | bigint | number
-    itemRandomSeed?: IntFilter | number
-    itemSockets?: StringFilter | string
-    endedAt?: DateTimeNullableFilter | Date | string | null
-    createdAt?: DateTimeFilter | Date | string
-  }
-
-  export type auctionOrderByInput = {
-    id?: SortOrder
-    buyoutPrice?: SortOrder
-    bidPrice?: SortOrder
-    startBidPrice?: SortOrder
-    sellerId?: SortOrder
-    sellerName?: SortOrder
-    isEnd?: SortOrder
-    isBuyout?: SortOrder
-    buyerId?: SortOrder
-    buyerName?: SortOrder
-    itemDataId?: SortOrder
-    itemLevel?: SortOrder
-    itemAmount?: SortOrder
-    itemDurability?: SortOrder
-    itemExp?: SortOrder
-    itemLockRemainsDuration?: SortOrder
-    itemExpireTime?: SortOrder
-    itemRandomSeed?: SortOrder
-    itemSockets?: SortOrder
-    endedAt?: SortOrder
-    createdAt?: SortOrder
-  }
-
-  export type auctionWhereUniqueInput = {
-    id?: number
-  }
-
-  export type auctionScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<auctionScalarWhereWithAggregatesInput>
-    OR?: Enumerable<auctionScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<auctionScalarWhereWithAggregatesInput>
-    id?: IntWithAggregatesFilter | number
-    buyoutPrice?: IntWithAggregatesFilter | number
-    bidPrice?: IntWithAggregatesFilter | number
-    startBidPrice?: IntWithAggregatesFilter | number
-    sellerId?: StringWithAggregatesFilter | string
-    sellerName?: StringWithAggregatesFilter | string
-    isEnd?: BoolWithAggregatesFilter | boolean
-    isBuyout?: BoolWithAggregatesFilter | boolean
-    buyerId?: StringWithAggregatesFilter | string
-    buyerName?: StringWithAggregatesFilter | string
-    itemDataId?: IntWithAggregatesFilter | number
-    itemLevel?: IntWithAggregatesFilter | number
-    itemAmount?: IntWithAggregatesFilter | number
-    itemDurability?: FloatWithAggregatesFilter | number
-    itemExp?: IntWithAggregatesFilter | number
-    itemLockRemainsDuration?: FloatWithAggregatesFilter | number
-    itemExpireTime?: BigIntWithAggregatesFilter | bigint | number
-    itemRandomSeed?: IntWithAggregatesFilter | number
-    itemSockets?: StringWithAggregatesFilter | string
-    endedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
-    createdAt?: DateTimeWithAggregatesFilter | Date | string
-  }
-
-  export type auction_bid_logsWhereInput = {
-    AND?: Enumerable<auction_bid_logsWhereInput>
-    OR?: Enumerable<auction_bid_logsWhereInput>
-    NOT?: Enumerable<auction_bid_logsWhereInput>
+  export type mailWhereInput = {
+    AND?: Enumerable<mailWhereInput>
+    OR?: Enumerable<mailWhereInput>
+    NOT?: Enumerable<mailWhereInput>
     id?: BigIntFilter | bigint | number
-    auctionId?: IntFilter | number
-    buyerId?: StringFilter | string
-    buyerName?: StringFilter | string
-    bidPrice?: IntFilter | number
-    isBuyout?: BoolFilter | boolean
+    eventId?: StringFilter | string
+    senderId?: StringFilter | string
+    senderName?: StringFilter | string
+    receiverId?: StringFilter | string
+    title?: StringFilter | string
+    content?: StringFilter | string
+    gold?: IntFilter | number
+    cash?: IntFilter | number
+    currencies?: StringFilter | string
+    items?: StringFilter | string
+    isRead?: BoolFilter | boolean
+    readTimestamp?: DateTimeNullableFilter | Date | string | null
+    isClaim?: BoolFilter | boolean
+    claimTimestamp?: DateTimeNullableFilter | Date | string | null
+    isDelete?: BoolFilter | boolean
+    deleteTimestamp?: DateTimeNullableFilter | Date | string | null
+    sentTimestamp?: DateTimeFilter | Date | string
   }
 
-  export type auction_bid_logsOrderByInput = {
+  export type mailOrderByInput = {
     id?: SortOrder
-    auctionId?: SortOrder
-    buyerId?: SortOrder
-    buyerName?: SortOrder
-    bidPrice?: SortOrder
-    isBuyout?: SortOrder
+    eventId?: SortOrder
+    senderId?: SortOrder
+    senderName?: SortOrder
+    receiverId?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    gold?: SortOrder
+    cash?: SortOrder
+    currencies?: SortOrder
+    items?: SortOrder
+    isRead?: SortOrder
+    readTimestamp?: SortOrder
+    isClaim?: SortOrder
+    claimTimestamp?: SortOrder
+    isDelete?: SortOrder
+    deleteTimestamp?: SortOrder
+    sentTimestamp?: SortOrder
   }
 
-  export type auction_bid_logsWhereUniqueInput = {
+  export type mailWhereUniqueInput = {
     id?: bigint | number
   }
 
-  export type auction_bid_logsScalarWhereWithAggregatesInput = {
-    AND?: Enumerable<auction_bid_logsScalarWhereWithAggregatesInput>
-    OR?: Enumerable<auction_bid_logsScalarWhereWithAggregatesInput>
-    NOT?: Enumerable<auction_bid_logsScalarWhereWithAggregatesInput>
+  export type mailScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<mailScalarWhereWithAggregatesInput>
+    OR?: Enumerable<mailScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<mailScalarWhereWithAggregatesInput>
     id?: BigIntWithAggregatesFilter | bigint | number
-    auctionId?: IntWithAggregatesFilter | number
-    buyerId?: StringWithAggregatesFilter | string
-    buyerName?: StringWithAggregatesFilter | string
-    bidPrice?: IntWithAggregatesFilter | number
-    isBuyout?: BoolWithAggregatesFilter | boolean
+    eventId?: StringWithAggregatesFilter | string
+    senderId?: StringWithAggregatesFilter | string
+    senderName?: StringWithAggregatesFilter | string
+    receiverId?: StringWithAggregatesFilter | string
+    title?: StringWithAggregatesFilter | string
+    content?: StringWithAggregatesFilter | string
+    gold?: IntWithAggregatesFilter | number
+    cash?: IntWithAggregatesFilter | number
+    currencies?: StringWithAggregatesFilter | string
+    items?: StringWithAggregatesFilter | string
+    isRead?: BoolWithAggregatesFilter | boolean
+    readTimestamp?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    isClaim?: BoolWithAggregatesFilter | boolean
+    claimTimestamp?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    isDelete?: BoolWithAggregatesFilter | boolean
+    deleteTimestamp?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    sentTimestamp?: DateTimeWithAggregatesFilter | Date | string
   }
 
-  export type auctionCreateInput = {
-    buyoutPrice?: number
-    bidPrice?: number
-    startBidPrice?: number
-    sellerId?: string
-    sellerName?: string
-    isEnd?: boolean
-    isBuyout?: boolean
-    buyerId?: string
-    buyerName?: string
-    itemDataId?: number
-    itemLevel?: number
-    itemAmount?: number
-    itemDurability?: number
-    itemExp?: number
-    itemLockRemainsDuration?: number
-    itemExpireTime?: bigint | number
-    itemRandomSeed?: number
-    itemSockets?: string
-    endedAt?: Date | string | null
-    createdAt?: Date | string
-  }
-
-  export type auctionUncheckedCreateInput = {
-    id?: number
-    buyoutPrice?: number
-    bidPrice?: number
-    startBidPrice?: number
-    sellerId?: string
-    sellerName?: string
-    isEnd?: boolean
-    isBuyout?: boolean
-    buyerId?: string
-    buyerName?: string
-    itemDataId?: number
-    itemLevel?: number
-    itemAmount?: number
-    itemDurability?: number
-    itemExp?: number
-    itemLockRemainsDuration?: number
-    itemExpireTime?: bigint | number
-    itemRandomSeed?: number
-    itemSockets?: string
-    endedAt?: Date | string | null
-    createdAt?: Date | string
-  }
-
-  export type auctionUpdateInput = {
-    buyoutPrice?: IntFieldUpdateOperationsInput | number
-    bidPrice?: IntFieldUpdateOperationsInput | number
-    startBidPrice?: IntFieldUpdateOperationsInput | number
-    sellerId?: StringFieldUpdateOperationsInput | string
-    sellerName?: StringFieldUpdateOperationsInput | string
-    isEnd?: BoolFieldUpdateOperationsInput | boolean
-    isBuyout?: BoolFieldUpdateOperationsInput | boolean
-    buyerId?: StringFieldUpdateOperationsInput | string
-    buyerName?: StringFieldUpdateOperationsInput | string
-    itemDataId?: IntFieldUpdateOperationsInput | number
-    itemLevel?: IntFieldUpdateOperationsInput | number
-    itemAmount?: IntFieldUpdateOperationsInput | number
-    itemDurability?: FloatFieldUpdateOperationsInput | number
-    itemExp?: IntFieldUpdateOperationsInput | number
-    itemLockRemainsDuration?: FloatFieldUpdateOperationsInput | number
-    itemExpireTime?: BigIntFieldUpdateOperationsInput | bigint | number
-    itemRandomSeed?: IntFieldUpdateOperationsInput | number
-    itemSockets?: StringFieldUpdateOperationsInput | string
-    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type auctionUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    buyoutPrice?: IntFieldUpdateOperationsInput | number
-    bidPrice?: IntFieldUpdateOperationsInput | number
-    startBidPrice?: IntFieldUpdateOperationsInput | number
-    sellerId?: StringFieldUpdateOperationsInput | string
-    sellerName?: StringFieldUpdateOperationsInput | string
-    isEnd?: BoolFieldUpdateOperationsInput | boolean
-    isBuyout?: BoolFieldUpdateOperationsInput | boolean
-    buyerId?: StringFieldUpdateOperationsInput | string
-    buyerName?: StringFieldUpdateOperationsInput | string
-    itemDataId?: IntFieldUpdateOperationsInput | number
-    itemLevel?: IntFieldUpdateOperationsInput | number
-    itemAmount?: IntFieldUpdateOperationsInput | number
-    itemDurability?: FloatFieldUpdateOperationsInput | number
-    itemExp?: IntFieldUpdateOperationsInput | number
-    itemLockRemainsDuration?: FloatFieldUpdateOperationsInput | number
-    itemExpireTime?: BigIntFieldUpdateOperationsInput | bigint | number
-    itemRandomSeed?: IntFieldUpdateOperationsInput | number
-    itemSockets?: StringFieldUpdateOperationsInput | string
-    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type auctionCreateManyInput = {
-    id?: number
-    buyoutPrice?: number
-    bidPrice?: number
-    startBidPrice?: number
-    sellerId?: string
-    sellerName?: string
-    isEnd?: boolean
-    isBuyout?: boolean
-    buyerId?: string
-    buyerName?: string
-    itemDataId?: number
-    itemLevel?: number
-    itemAmount?: number
-    itemDurability?: number
-    itemExp?: number
-    itemLockRemainsDuration?: number
-    itemExpireTime?: bigint | number
-    itemRandomSeed?: number
-    itemSockets?: string
-    endedAt?: Date | string | null
-    createdAt?: Date | string
-  }
-
-  export type auctionUpdateManyMutationInput = {
-    buyoutPrice?: IntFieldUpdateOperationsInput | number
-    bidPrice?: IntFieldUpdateOperationsInput | number
-    startBidPrice?: IntFieldUpdateOperationsInput | number
-    sellerId?: StringFieldUpdateOperationsInput | string
-    sellerName?: StringFieldUpdateOperationsInput | string
-    isEnd?: BoolFieldUpdateOperationsInput | boolean
-    isBuyout?: BoolFieldUpdateOperationsInput | boolean
-    buyerId?: StringFieldUpdateOperationsInput | string
-    buyerName?: StringFieldUpdateOperationsInput | string
-    itemDataId?: IntFieldUpdateOperationsInput | number
-    itemLevel?: IntFieldUpdateOperationsInput | number
-    itemAmount?: IntFieldUpdateOperationsInput | number
-    itemDurability?: FloatFieldUpdateOperationsInput | number
-    itemExp?: IntFieldUpdateOperationsInput | number
-    itemLockRemainsDuration?: FloatFieldUpdateOperationsInput | number
-    itemExpireTime?: BigIntFieldUpdateOperationsInput | bigint | number
-    itemRandomSeed?: IntFieldUpdateOperationsInput | number
-    itemSockets?: StringFieldUpdateOperationsInput | string
-    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type auctionUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    buyoutPrice?: IntFieldUpdateOperationsInput | number
-    bidPrice?: IntFieldUpdateOperationsInput | number
-    startBidPrice?: IntFieldUpdateOperationsInput | number
-    sellerId?: StringFieldUpdateOperationsInput | string
-    sellerName?: StringFieldUpdateOperationsInput | string
-    isEnd?: BoolFieldUpdateOperationsInput | boolean
-    isBuyout?: BoolFieldUpdateOperationsInput | boolean
-    buyerId?: StringFieldUpdateOperationsInput | string
-    buyerName?: StringFieldUpdateOperationsInput | string
-    itemDataId?: IntFieldUpdateOperationsInput | number
-    itemLevel?: IntFieldUpdateOperationsInput | number
-    itemAmount?: IntFieldUpdateOperationsInput | number
-    itemDurability?: FloatFieldUpdateOperationsInput | number
-    itemExp?: IntFieldUpdateOperationsInput | number
-    itemLockRemainsDuration?: FloatFieldUpdateOperationsInput | number
-    itemExpireTime?: BigIntFieldUpdateOperationsInput | bigint | number
-    itemRandomSeed?: IntFieldUpdateOperationsInput | number
-    itemSockets?: StringFieldUpdateOperationsInput | string
-    endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type auction_bid_logsCreateInput = {
+  export type mailCreateInput = {
     id?: bigint | number
-    auctionId: number
-    buyerId?: string
-    buyerName?: string
-    bidPrice?: number
-    isBuyout?: boolean
+    eventId: string
+    senderId: string
+    senderName: string
+    receiverId: string
+    title: string
+    content: string
+    gold?: number
+    cash?: number
+    currencies: string
+    items: string
+    isRead?: boolean
+    readTimestamp?: Date | string | null
+    isClaim?: boolean
+    claimTimestamp?: Date | string | null
+    isDelete?: boolean
+    deleteTimestamp?: Date | string | null
+    sentTimestamp?: Date | string
   }
 
-  export type auction_bid_logsUncheckedCreateInput = {
+  export type mailUncheckedCreateInput = {
     id?: bigint | number
-    auctionId: number
-    buyerId?: string
-    buyerName?: string
-    bidPrice?: number
-    isBuyout?: boolean
+    eventId: string
+    senderId: string
+    senderName: string
+    receiverId: string
+    title: string
+    content: string
+    gold?: number
+    cash?: number
+    currencies: string
+    items: string
+    isRead?: boolean
+    readTimestamp?: Date | string | null
+    isClaim?: boolean
+    claimTimestamp?: Date | string | null
+    isDelete?: boolean
+    deleteTimestamp?: Date | string | null
+    sentTimestamp?: Date | string
   }
 
-  export type auction_bid_logsUpdateInput = {
+  export type mailUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    auctionId?: IntFieldUpdateOperationsInput | number
-    buyerId?: StringFieldUpdateOperationsInput | string
-    buyerName?: StringFieldUpdateOperationsInput | string
-    bidPrice?: IntFieldUpdateOperationsInput | number
-    isBuyout?: BoolFieldUpdateOperationsInput | boolean
+    eventId?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    senderName?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    gold?: IntFieldUpdateOperationsInput | number
+    cash?: IntFieldUpdateOperationsInput | number
+    currencies?: StringFieldUpdateOperationsInput | string
+    items?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    readTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isClaim?: BoolFieldUpdateOperationsInput | boolean
+    claimTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    deleteTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentTimestamp?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type auction_bid_logsUncheckedUpdateInput = {
+  export type mailUncheckedUpdateInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    auctionId?: IntFieldUpdateOperationsInput | number
-    buyerId?: StringFieldUpdateOperationsInput | string
-    buyerName?: StringFieldUpdateOperationsInput | string
-    bidPrice?: IntFieldUpdateOperationsInput | number
-    isBuyout?: BoolFieldUpdateOperationsInput | boolean
+    eventId?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    senderName?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    gold?: IntFieldUpdateOperationsInput | number
+    cash?: IntFieldUpdateOperationsInput | number
+    currencies?: StringFieldUpdateOperationsInput | string
+    items?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    readTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isClaim?: BoolFieldUpdateOperationsInput | boolean
+    claimTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    deleteTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentTimestamp?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type auction_bid_logsCreateManyInput = {
+  export type mailCreateManyInput = {
     id?: bigint | number
-    auctionId: number
-    buyerId?: string
-    buyerName?: string
-    bidPrice?: number
-    isBuyout?: boolean
+    eventId: string
+    senderId: string
+    senderName: string
+    receiverId: string
+    title: string
+    content: string
+    gold?: number
+    cash?: number
+    currencies: string
+    items: string
+    isRead?: boolean
+    readTimestamp?: Date | string | null
+    isClaim?: boolean
+    claimTimestamp?: Date | string | null
+    isDelete?: boolean
+    deleteTimestamp?: Date | string | null
+    sentTimestamp?: Date | string
   }
 
-  export type auction_bid_logsUpdateManyMutationInput = {
+  export type mailUpdateManyMutationInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    auctionId?: IntFieldUpdateOperationsInput | number
-    buyerId?: StringFieldUpdateOperationsInput | string
-    buyerName?: StringFieldUpdateOperationsInput | string
-    bidPrice?: IntFieldUpdateOperationsInput | number
-    isBuyout?: BoolFieldUpdateOperationsInput | boolean
+    eventId?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    senderName?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    gold?: IntFieldUpdateOperationsInput | number
+    cash?: IntFieldUpdateOperationsInput | number
+    currencies?: StringFieldUpdateOperationsInput | string
+    items?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    readTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isClaim?: BoolFieldUpdateOperationsInput | boolean
+    claimTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    deleteTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentTimestamp?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type auction_bid_logsUncheckedUpdateManyInput = {
+  export type mailUncheckedUpdateManyInput = {
     id?: BigIntFieldUpdateOperationsInput | bigint | number
-    auctionId?: IntFieldUpdateOperationsInput | number
-    buyerId?: StringFieldUpdateOperationsInput | string
-    buyerName?: StringFieldUpdateOperationsInput | string
-    bidPrice?: IntFieldUpdateOperationsInput | number
-    isBuyout?: BoolFieldUpdateOperationsInput | boolean
+    eventId?: StringFieldUpdateOperationsInput | string
+    senderId?: StringFieldUpdateOperationsInput | string
+    senderName?: StringFieldUpdateOperationsInput | string
+    receiverId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    gold?: IntFieldUpdateOperationsInput | number
+    cash?: IntFieldUpdateOperationsInput | number
+    currencies?: StringFieldUpdateOperationsInput | string
+    items?: StringFieldUpdateOperationsInput | string
+    isRead?: BoolFieldUpdateOperationsInput | boolean
+    readTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isClaim?: BoolFieldUpdateOperationsInput | boolean
+    claimTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isDelete?: BoolFieldUpdateOperationsInput | boolean
+    deleteTimestamp?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentTimestamp?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type IntFilter = {
-    equals?: number
-    in?: Enumerable<number>
-    notIn?: Enumerable<number>
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedIntFilter | number
+  export type BigIntFilter = {
+    equals?: bigint | number
+    in?: Enumerable<bigint> | Enumerable<number>
+    notIn?: Enumerable<bigint> | Enumerable<number>
+    lt?: bigint | number
+    lte?: bigint | number
+    gt?: bigint | number
+    gte?: bigint | number
+    not?: NestedBigIntFilter | bigint | number
   }
 
   export type StringFilter = {
@@ -2902,12 +1864,7 @@ export namespace Prisma {
     not?: NestedStringFilter | string
   }
 
-  export type BoolFilter = {
-    equals?: boolean
-    not?: NestedBoolFilter | boolean
-  }
-
-  export type FloatFilter = {
+  export type IntFilter = {
     equals?: number
     in?: Enumerable<number>
     notIn?: Enumerable<number>
@@ -2915,18 +1872,12 @@ export namespace Prisma {
     lte?: number
     gt?: number
     gte?: number
-    not?: NestedFloatFilter | number
+    not?: NestedIntFilter | number
   }
 
-  export type BigIntFilter = {
-    equals?: bigint | number
-    in?: Enumerable<bigint> | Enumerable<number>
-    notIn?: Enumerable<bigint> | Enumerable<number>
-    lt?: bigint | number
-    lte?: bigint | number
-    gt?: bigint | number
-    gte?: bigint | number
-    not?: NestedBigIntFilter | bigint | number
+  export type BoolFilter = {
+    equals?: boolean
+    not?: NestedBoolFilter | boolean
   }
 
   export type DateTimeNullableFilter = {
@@ -2951,20 +1902,20 @@ export namespace Prisma {
     not?: NestedDateTimeFilter | Date | string
   }
 
-  export type IntWithAggregatesFilter = {
-    equals?: number
-    in?: Enumerable<number>
-    notIn?: Enumerable<number>
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedIntWithAggregatesFilter | number
+  export type BigIntWithAggregatesFilter = {
+    equals?: bigint | number
+    in?: Enumerable<bigint> | Enumerable<number>
+    notIn?: Enumerable<bigint> | Enumerable<number>
+    lt?: bigint | number
+    lte?: bigint | number
+    gt?: bigint | number
+    gte?: bigint | number
+    not?: NestedBigIntWithAggregatesFilter | bigint | number
     count?: NestedIntFilter
     avg?: NestedFloatFilter
-    sum?: NestedIntFilter
-    min?: NestedIntFilter
-    max?: NestedIntFilter
+    sum?: NestedBigIntFilter
+    min?: NestedBigIntFilter
+    max?: NestedBigIntFilter
   }
 
   export type StringWithAggregatesFilter = {
@@ -2984,15 +1935,7 @@ export namespace Prisma {
     max?: NestedStringFilter
   }
 
-  export type BoolWithAggregatesFilter = {
-    equals?: boolean
-    not?: NestedBoolWithAggregatesFilter | boolean
-    count?: NestedIntFilter
-    min?: NestedBoolFilter
-    max?: NestedBoolFilter
-  }
-
-  export type FloatWithAggregatesFilter = {
+  export type IntWithAggregatesFilter = {
     equals?: number
     in?: Enumerable<number>
     notIn?: Enumerable<number>
@@ -3000,28 +1943,20 @@ export namespace Prisma {
     lte?: number
     gt?: number
     gte?: number
-    not?: NestedFloatWithAggregatesFilter | number
+    not?: NestedIntWithAggregatesFilter | number
     count?: NestedIntFilter
     avg?: NestedFloatFilter
-    sum?: NestedFloatFilter
-    min?: NestedFloatFilter
-    max?: NestedFloatFilter
+    sum?: NestedIntFilter
+    min?: NestedIntFilter
+    max?: NestedIntFilter
   }
 
-  export type BigIntWithAggregatesFilter = {
-    equals?: bigint | number
-    in?: Enumerable<bigint> | Enumerable<number>
-    notIn?: Enumerable<bigint> | Enumerable<number>
-    lt?: bigint | number
-    lte?: bigint | number
-    gt?: bigint | number
-    gte?: bigint | number
-    not?: NestedBigIntWithAggregatesFilter | bigint | number
+  export type BoolWithAggregatesFilter = {
+    equals?: boolean
+    not?: NestedBoolWithAggregatesFilter | boolean
     count?: NestedIntFilter
-    avg?: NestedFloatFilter
-    sum?: NestedBigIntFilter
-    min?: NestedBigIntFilter
-    max?: NestedBigIntFilter
+    min?: NestedBoolFilter
+    max?: NestedBoolFilter
   }
 
   export type DateTimeNullableWithAggregatesFilter = {
@@ -3052,6 +1987,18 @@ export namespace Prisma {
     max?: NestedDateTimeFilter
   }
 
+  export type BigIntFieldUpdateOperationsInput = {
+    set?: bigint | number
+    increment?: bigint | number
+    decrement?: bigint | number
+    multiply?: bigint | number
+    divide?: bigint | number
+  }
+
+  export type StringFieldUpdateOperationsInput = {
+    set?: string
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -3060,28 +2007,8 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type StringFieldUpdateOperationsInput = {
-    set?: string
-  }
-
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
-  }
-
-  export type FloatFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
-  export type BigIntFieldUpdateOperationsInput = {
-    set?: bigint | number
-    increment?: bigint | number
-    decrement?: bigint | number
-    multiply?: bigint | number
-    divide?: bigint | number
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -3092,15 +2019,15 @@ export namespace Prisma {
     set?: Date | string
   }
 
-  export type NestedIntFilter = {
-    equals?: number
-    in?: Enumerable<number>
-    notIn?: Enumerable<number>
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedIntFilter | number
+  export type NestedBigIntFilter = {
+    equals?: bigint | number
+    in?: Enumerable<bigint> | Enumerable<number>
+    notIn?: Enumerable<bigint> | Enumerable<number>
+    lt?: bigint | number
+    lte?: bigint | number
+    gt?: bigint | number
+    gte?: bigint | number
+    not?: NestedBigIntFilter | bigint | number
   }
 
   export type NestedStringFilter = {
@@ -3117,12 +2044,7 @@ export namespace Prisma {
     not?: NestedStringFilter | string
   }
 
-  export type NestedBoolFilter = {
-    equals?: boolean
-    not?: NestedBoolFilter | boolean
-  }
-
-  export type NestedFloatFilter = {
+  export type NestedIntFilter = {
     equals?: number
     in?: Enumerable<number>
     notIn?: Enumerable<number>
@@ -3130,18 +2052,12 @@ export namespace Prisma {
     lte?: number
     gt?: number
     gte?: number
-    not?: NestedFloatFilter | number
+    not?: NestedIntFilter | number
   }
 
-  export type NestedBigIntFilter = {
-    equals?: bigint | number
-    in?: Enumerable<bigint> | Enumerable<number>
-    notIn?: Enumerable<bigint> | Enumerable<number>
-    lt?: bigint | number
-    lte?: bigint | number
-    gt?: bigint | number
-    gte?: bigint | number
-    not?: NestedBigIntFilter | bigint | number
+  export type NestedBoolFilter = {
+    equals?: boolean
+    not?: NestedBoolFilter | boolean
   }
 
   export type NestedDateTimeNullableFilter = {
@@ -3166,7 +2082,23 @@ export namespace Prisma {
     not?: NestedDateTimeFilter | Date | string
   }
 
-  export type NestedIntWithAggregatesFilter = {
+  export type NestedBigIntWithAggregatesFilter = {
+    equals?: bigint | number
+    in?: Enumerable<bigint> | Enumerable<number>
+    notIn?: Enumerable<bigint> | Enumerable<number>
+    lt?: bigint | number
+    lte?: bigint | number
+    gt?: bigint | number
+    gte?: bigint | number
+    not?: NestedBigIntWithAggregatesFilter | bigint | number
+    count?: NestedIntFilter
+    avg?: NestedFloatFilter
+    sum?: NestedBigIntFilter
+    min?: NestedBigIntFilter
+    max?: NestedBigIntFilter
+  }
+
+  export type NestedFloatFilter = {
     equals?: number
     in?: Enumerable<number>
     notIn?: Enumerable<number>
@@ -3174,12 +2106,7 @@ export namespace Prisma {
     lte?: number
     gt?: number
     gte?: number
-    not?: NestedIntWithAggregatesFilter | number
-    count?: NestedIntFilter
-    avg?: NestedFloatFilter
-    sum?: NestedIntFilter
-    min?: NestedIntFilter
-    max?: NestedIntFilter
+    not?: NestedFloatFilter | number
   }
 
   export type NestedStringWithAggregatesFilter = {
@@ -3199,15 +2126,7 @@ export namespace Prisma {
     max?: NestedStringFilter
   }
 
-  export type NestedBoolWithAggregatesFilter = {
-    equals?: boolean
-    not?: NestedBoolWithAggregatesFilter | boolean
-    count?: NestedIntFilter
-    min?: NestedBoolFilter
-    max?: NestedBoolFilter
-  }
-
-  export type NestedFloatWithAggregatesFilter = {
+  export type NestedIntWithAggregatesFilter = {
     equals?: number
     in?: Enumerable<number>
     notIn?: Enumerable<number>
@@ -3215,28 +2134,20 @@ export namespace Prisma {
     lte?: number
     gt?: number
     gte?: number
-    not?: NestedFloatWithAggregatesFilter | number
+    not?: NestedIntWithAggregatesFilter | number
     count?: NestedIntFilter
     avg?: NestedFloatFilter
-    sum?: NestedFloatFilter
-    min?: NestedFloatFilter
-    max?: NestedFloatFilter
+    sum?: NestedIntFilter
+    min?: NestedIntFilter
+    max?: NestedIntFilter
   }
 
-  export type NestedBigIntWithAggregatesFilter = {
-    equals?: bigint | number
-    in?: Enumerable<bigint> | Enumerable<number>
-    notIn?: Enumerable<bigint> | Enumerable<number>
-    lt?: bigint | number
-    lte?: bigint | number
-    gt?: bigint | number
-    gte?: bigint | number
-    not?: NestedBigIntWithAggregatesFilter | bigint | number
+  export type NestedBoolWithAggregatesFilter = {
+    equals?: boolean
+    not?: NestedBoolWithAggregatesFilter | boolean
     count?: NestedIntFilter
-    avg?: NestedFloatFilter
-    sum?: NestedBigIntFilter
-    min?: NestedBigIntFilter
-    max?: NestedBigIntFilter
+    min?: NestedBoolFilter
+    max?: NestedBoolFilter
   }
 
   export type NestedDateTimeNullableWithAggregatesFilter = {

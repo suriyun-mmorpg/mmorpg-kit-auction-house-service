@@ -27,15 +27,7 @@ export type auction = {
   isBuyout: boolean
   buyerId: string
   buyerName: string
-  itemDataId: number
-  itemLevel: number
-  itemAmount: number
-  itemDurability: number
-  itemExp: number
-  itemLockRemainsDuration: number
-  itemExpireTime: bigint
-  itemRandomSeed: number
-  itemSockets: string
+  itemData: string
   endedAt: Date | null
   createdAt: Date
 }
@@ -715,14 +707,6 @@ export namespace Prisma {
     buyoutPrice: number | null
     bidPrice: number | null
     startBidPrice: number | null
-    itemDataId: number | null
-    itemLevel: number | null
-    itemAmount: number | null
-    itemDurability: number | null
-    itemExp: number | null
-    itemLockRemainsDuration: number | null
-    itemExpireTime: number | null
-    itemRandomSeed: number | null
   }
 
   export type AuctionSumAggregateOutputType = {
@@ -730,14 +714,6 @@ export namespace Prisma {
     buyoutPrice: number | null
     bidPrice: number | null
     startBidPrice: number | null
-    itemDataId: number | null
-    itemLevel: number | null
-    itemAmount: number | null
-    itemDurability: number | null
-    itemExp: number | null
-    itemLockRemainsDuration: number | null
-    itemExpireTime: bigint | null
-    itemRandomSeed: number | null
   }
 
   export type AuctionMinAggregateOutputType = {
@@ -751,15 +727,7 @@ export namespace Prisma {
     isBuyout: boolean | null
     buyerId: string | null
     buyerName: string | null
-    itemDataId: number | null
-    itemLevel: number | null
-    itemAmount: number | null
-    itemDurability: number | null
-    itemExp: number | null
-    itemLockRemainsDuration: number | null
-    itemExpireTime: bigint | null
-    itemRandomSeed: number | null
-    itemSockets: string | null
+    itemData: string | null
     endedAt: Date | null
     createdAt: Date | null
   }
@@ -775,15 +743,7 @@ export namespace Prisma {
     isBuyout: boolean | null
     buyerId: string | null
     buyerName: string | null
-    itemDataId: number | null
-    itemLevel: number | null
-    itemAmount: number | null
-    itemDurability: number | null
-    itemExp: number | null
-    itemLockRemainsDuration: number | null
-    itemExpireTime: bigint | null
-    itemRandomSeed: number | null
-    itemSockets: string | null
+    itemData: string | null
     endedAt: Date | null
     createdAt: Date | null
   }
@@ -799,15 +759,7 @@ export namespace Prisma {
     isBuyout: number
     buyerId: number
     buyerName: number
-    itemDataId: number
-    itemLevel: number
-    itemAmount: number
-    itemDurability: number
-    itemExp: number
-    itemLockRemainsDuration: number
-    itemExpireTime: number
-    itemRandomSeed: number
-    itemSockets: number
+    itemData: number
     endedAt: number
     createdAt: number
     _all: number
@@ -819,14 +771,6 @@ export namespace Prisma {
     buyoutPrice?: true
     bidPrice?: true
     startBidPrice?: true
-    itemDataId?: true
-    itemLevel?: true
-    itemAmount?: true
-    itemDurability?: true
-    itemExp?: true
-    itemLockRemainsDuration?: true
-    itemExpireTime?: true
-    itemRandomSeed?: true
   }
 
   export type AuctionSumAggregateInputType = {
@@ -834,14 +778,6 @@ export namespace Prisma {
     buyoutPrice?: true
     bidPrice?: true
     startBidPrice?: true
-    itemDataId?: true
-    itemLevel?: true
-    itemAmount?: true
-    itemDurability?: true
-    itemExp?: true
-    itemLockRemainsDuration?: true
-    itemExpireTime?: true
-    itemRandomSeed?: true
   }
 
   export type AuctionMinAggregateInputType = {
@@ -855,15 +791,7 @@ export namespace Prisma {
     isBuyout?: true
     buyerId?: true
     buyerName?: true
-    itemDataId?: true
-    itemLevel?: true
-    itemAmount?: true
-    itemDurability?: true
-    itemExp?: true
-    itemLockRemainsDuration?: true
-    itemExpireTime?: true
-    itemRandomSeed?: true
-    itemSockets?: true
+    itemData?: true
     endedAt?: true
     createdAt?: true
   }
@@ -879,15 +807,7 @@ export namespace Prisma {
     isBuyout?: true
     buyerId?: true
     buyerName?: true
-    itemDataId?: true
-    itemLevel?: true
-    itemAmount?: true
-    itemDurability?: true
-    itemExp?: true
-    itemLockRemainsDuration?: true
-    itemExpireTime?: true
-    itemRandomSeed?: true
-    itemSockets?: true
+    itemData?: true
     endedAt?: true
     createdAt?: true
   }
@@ -903,15 +823,7 @@ export namespace Prisma {
     isBuyout?: true
     buyerId?: true
     buyerName?: true
-    itemDataId?: true
-    itemLevel?: true
-    itemAmount?: true
-    itemDurability?: true
-    itemExp?: true
-    itemLockRemainsDuration?: true
-    itemExpireTime?: true
-    itemRandomSeed?: true
-    itemSockets?: true
+    itemData?: true
     endedAt?: true
     createdAt?: true
     _all?: true
@@ -1015,15 +927,7 @@ export namespace Prisma {
     isBuyout: boolean
     buyerId: string
     buyerName: string
-    itemDataId: number
-    itemLevel: number
-    itemAmount: number
-    itemDurability: number
-    itemExp: number
-    itemLockRemainsDuration: number
-    itemExpireTime: bigint
-    itemRandomSeed: number
-    itemSockets: string
+    itemData: string
     endedAt: Date | null
     createdAt: Date
     count: AuctionCountAggregateOutputType | null
@@ -1051,15 +955,7 @@ export namespace Prisma {
     isBuyout?: boolean
     buyerId?: boolean
     buyerName?: boolean
-    itemDataId?: boolean
-    itemLevel?: boolean
-    itemAmount?: boolean
-    itemDurability?: boolean
-    itemExp?: boolean
-    itemLockRemainsDuration?: boolean
-    itemExpireTime?: boolean
-    itemRandomSeed?: boolean
-    itemSockets?: boolean
+    itemData?: boolean
     endedAt?: boolean
     createdAt?: boolean
   }
@@ -2489,15 +2385,7 @@ export namespace Prisma {
     isBuyout: 'isBuyout',
     buyerId: 'buyerId',
     buyerName: 'buyerName',
-    itemDataId: 'itemDataId',
-    itemLevel: 'itemLevel',
-    itemAmount: 'itemAmount',
-    itemDurability: 'itemDurability',
-    itemExp: 'itemExp',
-    itemLockRemainsDuration: 'itemLockRemainsDuration',
-    itemExpireTime: 'itemExpireTime',
-    itemRandomSeed: 'itemRandomSeed',
-    itemSockets: 'itemSockets',
+    itemData: 'itemData',
     endedAt: 'endedAt',
     createdAt: 'createdAt'
   };
@@ -2544,15 +2432,7 @@ export namespace Prisma {
     isBuyout?: BoolFilter | boolean
     buyerId?: StringFilter | string
     buyerName?: StringFilter | string
-    itemDataId?: IntFilter | number
-    itemLevel?: IntFilter | number
-    itemAmount?: IntFilter | number
-    itemDurability?: FloatFilter | number
-    itemExp?: IntFilter | number
-    itemLockRemainsDuration?: FloatFilter | number
-    itemExpireTime?: BigIntFilter | bigint | number
-    itemRandomSeed?: IntFilter | number
-    itemSockets?: StringFilter | string
+    itemData?: StringFilter | string
     endedAt?: DateTimeNullableFilter | Date | string | null
     createdAt?: DateTimeFilter | Date | string
   }
@@ -2568,15 +2448,7 @@ export namespace Prisma {
     isBuyout?: SortOrder
     buyerId?: SortOrder
     buyerName?: SortOrder
-    itemDataId?: SortOrder
-    itemLevel?: SortOrder
-    itemAmount?: SortOrder
-    itemDurability?: SortOrder
-    itemExp?: SortOrder
-    itemLockRemainsDuration?: SortOrder
-    itemExpireTime?: SortOrder
-    itemRandomSeed?: SortOrder
-    itemSockets?: SortOrder
+    itemData?: SortOrder
     endedAt?: SortOrder
     createdAt?: SortOrder
   }
@@ -2599,15 +2471,7 @@ export namespace Prisma {
     isBuyout?: BoolWithAggregatesFilter | boolean
     buyerId?: StringWithAggregatesFilter | string
     buyerName?: StringWithAggregatesFilter | string
-    itemDataId?: IntWithAggregatesFilter | number
-    itemLevel?: IntWithAggregatesFilter | number
-    itemAmount?: IntWithAggregatesFilter | number
-    itemDurability?: FloatWithAggregatesFilter | number
-    itemExp?: IntWithAggregatesFilter | number
-    itemLockRemainsDuration?: FloatWithAggregatesFilter | number
-    itemExpireTime?: BigIntWithAggregatesFilter | bigint | number
-    itemRandomSeed?: IntWithAggregatesFilter | number
-    itemSockets?: StringWithAggregatesFilter | string
+    itemData?: StringWithAggregatesFilter | string
     endedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter | Date | string
   }
@@ -2659,15 +2523,7 @@ export namespace Prisma {
     isBuyout?: boolean
     buyerId?: string
     buyerName?: string
-    itemDataId?: number
-    itemLevel?: number
-    itemAmount?: number
-    itemDurability?: number
-    itemExp?: number
-    itemLockRemainsDuration?: number
-    itemExpireTime?: bigint | number
-    itemRandomSeed?: number
-    itemSockets?: string
+    itemData: string
     endedAt?: Date | string | null
     createdAt?: Date | string
   }
@@ -2683,15 +2539,7 @@ export namespace Prisma {
     isBuyout?: boolean
     buyerId?: string
     buyerName?: string
-    itemDataId?: number
-    itemLevel?: number
-    itemAmount?: number
-    itemDurability?: number
-    itemExp?: number
-    itemLockRemainsDuration?: number
-    itemExpireTime?: bigint | number
-    itemRandomSeed?: number
-    itemSockets?: string
+    itemData: string
     endedAt?: Date | string | null
     createdAt?: Date | string
   }
@@ -2706,15 +2554,7 @@ export namespace Prisma {
     isBuyout?: BoolFieldUpdateOperationsInput | boolean
     buyerId?: StringFieldUpdateOperationsInput | string
     buyerName?: StringFieldUpdateOperationsInput | string
-    itemDataId?: IntFieldUpdateOperationsInput | number
-    itemLevel?: IntFieldUpdateOperationsInput | number
-    itemAmount?: IntFieldUpdateOperationsInput | number
-    itemDurability?: FloatFieldUpdateOperationsInput | number
-    itemExp?: IntFieldUpdateOperationsInput | number
-    itemLockRemainsDuration?: FloatFieldUpdateOperationsInput | number
-    itemExpireTime?: BigIntFieldUpdateOperationsInput | bigint | number
-    itemRandomSeed?: IntFieldUpdateOperationsInput | number
-    itemSockets?: StringFieldUpdateOperationsInput | string
+    itemData?: StringFieldUpdateOperationsInput | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -2730,15 +2570,7 @@ export namespace Prisma {
     isBuyout?: BoolFieldUpdateOperationsInput | boolean
     buyerId?: StringFieldUpdateOperationsInput | string
     buyerName?: StringFieldUpdateOperationsInput | string
-    itemDataId?: IntFieldUpdateOperationsInput | number
-    itemLevel?: IntFieldUpdateOperationsInput | number
-    itemAmount?: IntFieldUpdateOperationsInput | number
-    itemDurability?: FloatFieldUpdateOperationsInput | number
-    itemExp?: IntFieldUpdateOperationsInput | number
-    itemLockRemainsDuration?: FloatFieldUpdateOperationsInput | number
-    itemExpireTime?: BigIntFieldUpdateOperationsInput | bigint | number
-    itemRandomSeed?: IntFieldUpdateOperationsInput | number
-    itemSockets?: StringFieldUpdateOperationsInput | string
+    itemData?: StringFieldUpdateOperationsInput | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -2754,15 +2586,7 @@ export namespace Prisma {
     isBuyout?: boolean
     buyerId?: string
     buyerName?: string
-    itemDataId?: number
-    itemLevel?: number
-    itemAmount?: number
-    itemDurability?: number
-    itemExp?: number
-    itemLockRemainsDuration?: number
-    itemExpireTime?: bigint | number
-    itemRandomSeed?: number
-    itemSockets?: string
+    itemData: string
     endedAt?: Date | string | null
     createdAt?: Date | string
   }
@@ -2777,15 +2601,7 @@ export namespace Prisma {
     isBuyout?: BoolFieldUpdateOperationsInput | boolean
     buyerId?: StringFieldUpdateOperationsInput | string
     buyerName?: StringFieldUpdateOperationsInput | string
-    itemDataId?: IntFieldUpdateOperationsInput | number
-    itemLevel?: IntFieldUpdateOperationsInput | number
-    itemAmount?: IntFieldUpdateOperationsInput | number
-    itemDurability?: FloatFieldUpdateOperationsInput | number
-    itemExp?: IntFieldUpdateOperationsInput | number
-    itemLockRemainsDuration?: FloatFieldUpdateOperationsInput | number
-    itemExpireTime?: BigIntFieldUpdateOperationsInput | bigint | number
-    itemRandomSeed?: IntFieldUpdateOperationsInput | number
-    itemSockets?: StringFieldUpdateOperationsInput | string
+    itemData?: StringFieldUpdateOperationsInput | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -2801,15 +2617,7 @@ export namespace Prisma {
     isBuyout?: BoolFieldUpdateOperationsInput | boolean
     buyerId?: StringFieldUpdateOperationsInput | string
     buyerName?: StringFieldUpdateOperationsInput | string
-    itemDataId?: IntFieldUpdateOperationsInput | number
-    itemLevel?: IntFieldUpdateOperationsInput | number
-    itemAmount?: IntFieldUpdateOperationsInput | number
-    itemDurability?: FloatFieldUpdateOperationsInput | number
-    itemExp?: IntFieldUpdateOperationsInput | number
-    itemLockRemainsDuration?: FloatFieldUpdateOperationsInput | number
-    itemExpireTime?: BigIntFieldUpdateOperationsInput | bigint | number
-    itemRandomSeed?: IntFieldUpdateOperationsInput | number
-    itemSockets?: StringFieldUpdateOperationsInput | string
+    itemData?: StringFieldUpdateOperationsInput | string
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -2907,28 +2715,6 @@ export namespace Prisma {
     not?: NestedBoolFilter | boolean
   }
 
-  export type FloatFilter = {
-    equals?: number
-    in?: Enumerable<number>
-    notIn?: Enumerable<number>
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedFloatFilter | number
-  }
-
-  export type BigIntFilter = {
-    equals?: bigint | number
-    in?: Enumerable<bigint> | Enumerable<number>
-    notIn?: Enumerable<bigint> | Enumerable<number>
-    lt?: bigint | number
-    lte?: bigint | number
-    gt?: bigint | number
-    gte?: bigint | number
-    not?: NestedBigIntFilter | bigint | number
-  }
-
   export type DateTimeNullableFilter = {
     equals?: Date | string | null
     in?: Enumerable<Date> | Enumerable<string> | null
@@ -2992,38 +2778,6 @@ export namespace Prisma {
     max?: NestedBoolFilter
   }
 
-  export type FloatWithAggregatesFilter = {
-    equals?: number
-    in?: Enumerable<number>
-    notIn?: Enumerable<number>
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedFloatWithAggregatesFilter | number
-    count?: NestedIntFilter
-    avg?: NestedFloatFilter
-    sum?: NestedFloatFilter
-    min?: NestedFloatFilter
-    max?: NestedFloatFilter
-  }
-
-  export type BigIntWithAggregatesFilter = {
-    equals?: bigint | number
-    in?: Enumerable<bigint> | Enumerable<number>
-    notIn?: Enumerable<bigint> | Enumerable<number>
-    lt?: bigint | number
-    lte?: bigint | number
-    gt?: bigint | number
-    gte?: bigint | number
-    not?: NestedBigIntWithAggregatesFilter | bigint | number
-    count?: NestedIntFilter
-    avg?: NestedFloatFilter
-    sum?: NestedBigIntFilter
-    min?: NestedBigIntFilter
-    max?: NestedBigIntFilter
-  }
-
   export type DateTimeNullableWithAggregatesFilter = {
     equals?: Date | string | null
     in?: Enumerable<Date> | Enumerable<string> | null
@@ -3052,6 +2806,33 @@ export namespace Prisma {
     max?: NestedDateTimeFilter
   }
 
+  export type BigIntFilter = {
+    equals?: bigint | number
+    in?: Enumerable<bigint> | Enumerable<number>
+    notIn?: Enumerable<bigint> | Enumerable<number>
+    lt?: bigint | number
+    lte?: bigint | number
+    gt?: bigint | number
+    gte?: bigint | number
+    not?: NestedBigIntFilter | bigint | number
+  }
+
+  export type BigIntWithAggregatesFilter = {
+    equals?: bigint | number
+    in?: Enumerable<bigint> | Enumerable<number>
+    notIn?: Enumerable<bigint> | Enumerable<number>
+    lt?: bigint | number
+    lte?: bigint | number
+    gt?: bigint | number
+    gte?: bigint | number
+    not?: NestedBigIntWithAggregatesFilter | bigint | number
+    count?: NestedIntFilter
+    avg?: NestedFloatFilter
+    sum?: NestedBigIntFilter
+    min?: NestedBigIntFilter
+    max?: NestedBigIntFilter
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
@@ -3068,12 +2849,12 @@ export namespace Prisma {
     set?: boolean
   }
 
-  export type FloatFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
   }
 
   export type BigIntFieldUpdateOperationsInput = {
@@ -3082,14 +2863,6 @@ export namespace Prisma {
     decrement?: bigint | number
     multiply?: bigint | number
     divide?: bigint | number
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
-  }
-
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
   }
 
   export type NestedIntFilter = {
@@ -3120,28 +2893,6 @@ export namespace Prisma {
   export type NestedBoolFilter = {
     equals?: boolean
     not?: NestedBoolFilter | boolean
-  }
-
-  export type NestedFloatFilter = {
-    equals?: number
-    in?: Enumerable<number>
-    notIn?: Enumerable<number>
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedFloatFilter | number
-  }
-
-  export type NestedBigIntFilter = {
-    equals?: bigint | number
-    in?: Enumerable<bigint> | Enumerable<number>
-    notIn?: Enumerable<bigint> | Enumerable<number>
-    lt?: bigint | number
-    lte?: bigint | number
-    gt?: bigint | number
-    gte?: bigint | number
-    not?: NestedBigIntFilter | bigint | number
   }
 
   export type NestedDateTimeNullableFilter = {
@@ -3182,6 +2933,17 @@ export namespace Prisma {
     max?: NestedIntFilter
   }
 
+  export type NestedFloatFilter = {
+    equals?: number
+    in?: Enumerable<number>
+    notIn?: Enumerable<number>
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedFloatFilter | number
+  }
+
   export type NestedStringWithAggregatesFilter = {
     equals?: string
     in?: Enumerable<string>
@@ -3205,38 +2967,6 @@ export namespace Prisma {
     count?: NestedIntFilter
     min?: NestedBoolFilter
     max?: NestedBoolFilter
-  }
-
-  export type NestedFloatWithAggregatesFilter = {
-    equals?: number
-    in?: Enumerable<number>
-    notIn?: Enumerable<number>
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedFloatWithAggregatesFilter | number
-    count?: NestedIntFilter
-    avg?: NestedFloatFilter
-    sum?: NestedFloatFilter
-    min?: NestedFloatFilter
-    max?: NestedFloatFilter
-  }
-
-  export type NestedBigIntWithAggregatesFilter = {
-    equals?: bigint | number
-    in?: Enumerable<bigint> | Enumerable<number>
-    notIn?: Enumerable<bigint> | Enumerable<number>
-    lt?: bigint | number
-    lte?: bigint | number
-    gt?: bigint | number
-    gte?: bigint | number
-    not?: NestedBigIntWithAggregatesFilter | bigint | number
-    count?: NestedIntFilter
-    avg?: NestedFloatFilter
-    sum?: NestedBigIntFilter
-    min?: NestedBigIntFilter
-    max?: NestedBigIntFilter
   }
 
   export type NestedDateTimeNullableWithAggregatesFilter = {
@@ -3276,6 +3006,33 @@ export namespace Prisma {
     count?: NestedIntFilter
     min?: NestedDateTimeFilter
     max?: NestedDateTimeFilter
+  }
+
+  export type NestedBigIntFilter = {
+    equals?: bigint | number
+    in?: Enumerable<bigint> | Enumerable<number>
+    notIn?: Enumerable<bigint> | Enumerable<number>
+    lt?: bigint | number
+    lte?: bigint | number
+    gt?: bigint | number
+    gte?: bigint | number
+    not?: NestedBigIntFilter | bigint | number
+  }
+
+  export type NestedBigIntWithAggregatesFilter = {
+    equals?: bigint | number
+    in?: Enumerable<bigint> | Enumerable<number>
+    notIn?: Enumerable<bigint> | Enumerable<number>
+    lt?: bigint | number
+    lte?: bigint | number
+    gt?: bigint | number
+    gte?: bigint | number
+    not?: NestedBigIntWithAggregatesFilter | bigint | number
+    count?: NestedIntFilter
+    avg?: NestedFloatFilter
+    sum?: NestedBigIntFilter
+    min?: NestedBigIntFilter
+    max?: NestedBigIntFilter
   }
 
 
