@@ -91,15 +91,7 @@ const server = fastify()
                     startBidPrice: form.startPrice,
                     sellerId: form.sellerId,
                     sellerName: form.sellerName,
-                    itemDataId: form.itemDataId,
-                    itemLevel: form.itemLevel,
-                    itemAmount: form.itemAmount,
-                    itemDurability: form.itemDurability,
-                    itemExp: form.itemExp,
-                    itemLockRemainsDuration: form.itemLockRemainsDuration,
-                    itemExpireTime: form.itemExpireTime,
-                    itemRandomSeed: form.itemRandomSeed,
-                    itemSockets: form.itemSockets,
+                    itemData: form.itemData,
                     // Set ended at value
                 }
             })
@@ -126,7 +118,8 @@ const server = fastify()
                 reply.code(400)
                 return
             }
-            const prevBuyerId = auction.buyerId;
+            const returnBuyerId = auction.buyerId;
+            const returnCurrency = auction.bidPrice
             const updateResult = await auctionClient.auction.updateMany({
                 where: {
                     id: form.id,
@@ -145,7 +138,7 @@ const server = fastify()
                 reply.code(500)
                 return
             }
-            // TODO: Create mail to return bidding money
+            await returnGold(returnBuyerId, returnCurrency)
             reply.code(200)
         })
 
@@ -155,6 +148,17 @@ const server = fastify()
             ]),
         }, async (request, reply) => {
             const form: BuyoutForm = request.body
+            const auction: any = await auctionClient.auction.findUnique({
+                where: {
+                    id: form.id
+                }
+            })
+            if (!auction) {
+                reply.code(400)
+                return
+            }
+            const returnBuyerId = auction.buyerId;
+            const returnCurrency = auction.bidPrice
             const updateResult = await auctionClient.auction.updateMany({
                 where: {
                     id: form.id,
@@ -172,7 +176,8 @@ const server = fastify()
                 reply.code(500)
                 return
             }
-            sendItem(form.id)
+            await sendItem(form.id)
+            await returnGold(returnBuyerId, returnCurrency)
             reply.code(200)
         })
     })
@@ -228,7 +233,54 @@ const addUpdatingAuction = (auction: any) => {
 }
 
 const sendItem = async (id: number) => {
+    const auction = await auctionClient.auction.findUnique({
+        where: {
+            id: id
+        }
+    })
+    if (!auction) {
+        return
+    }
+    mailClient.mail.create({
+        data: {
+            eventId: "",
+            senderId: process.env['MAIL_SENDER_ID']!,
+            senderName: process.env['MAIL_SENDER_NAME']!,
+            receiverId: auction.buyerId,
+            title: process.env['MAIL_BOUGHT_TITLE']!,
+            content: process.env['MAIL_BOUGHT_CONTENT']!,
+            currencies: "",
+            items: auction.itemData,
+        }
+    })
+    mailClient.mail.create({
+        data: {
+            eventId: "",
+            senderId: process.env['MAIL_SENDER_ID']!,
+            senderName: process.env['MAIL_SENDER_NAME']!,
+            receiverId: auction.sellerId,
+            title: process.env['MAIL_SOLD_TITLE']!,
+            content: process.env['MAIL_SOLD_CONTENT']!,
+            currencies: "",
+            items: auction.itemData,
+        }
+    })
+}
 
+const returnGold = async (userId: string, gold: number) => {
+    await mailClient.mail.create({
+        data: {
+            eventId: "",
+            senderId: process.env['MAIL_SENDER_ID']!,
+            senderName: process.env['MAIL_SENDER_NAME']!,
+            receiverId: userId,
+            title: process.env['MAIL_BID_CURRENCY_RETURN_TITLE']!,
+            content: process.env['MAIL_BID_CURRENCY_RETURN_CONTENT']!,
+            currencies: "",
+            items: "",
+            gold: gold,
+        }
+    })
 }
 
 server.listen(Number(process.env['PORT']), String(process.env['ADDRESS']), (err, address) => {
