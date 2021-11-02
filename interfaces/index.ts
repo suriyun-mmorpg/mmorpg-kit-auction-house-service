@@ -1,13 +1,5 @@
 export interface CreateAuctionForm {
-    itemDataId: number,
-    itemLevel: number,
-    itemAmount: number,
-    itemDurability: number,
-    itemExp: number,
-    itemLockRemainsDuration: number,
-    itemExpireTime: number,
-    itemRandomSeed: number,
-    itemSockets: string,
+    itemData: string,
     startPrice: number,
     buyoutPrice: number,
     sellerId: string,
@@ -15,14 +7,14 @@ export interface CreateAuctionForm {
 }
 
 export interface BidForm {
-    characterId: string,
+    userId: string,
     characterName: string,
     id: number,
     price: number,
 }
 
 export interface BuyoutForm {
-    characterId: string,
+    userId: string,
     characterName: string,
     id: number,
 }
