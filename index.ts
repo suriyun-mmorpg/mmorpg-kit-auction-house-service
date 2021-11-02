@@ -241,7 +241,7 @@ const sendItem = async (id: number) => {
     if (!auction) {
         return
     }
-    mailClient.mail.create({
+    await mailClient.mail.create({
         data: {
             eventId: "",
             senderId: process.env['MAIL_SENDER_ID']!,
@@ -253,7 +253,7 @@ const sendItem = async (id: number) => {
             items: auction.itemData,
         }
     })
-    mailClient.mail.create({
+    await mailClient.mail.create({
         data: {
             eventId: "",
             senderId: process.env['MAIL_SENDER_ID']!,
