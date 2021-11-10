@@ -1,25 +1,41 @@
 import fastify from 'fastify'
+import * as fastifyPackage from 'fastify'
 import authPlugin from 'fastify-auth'
+import bearerAuthPlugin from 'fastify-bearer-auth'
 import { PrismaClient as AuctionClient } from './prisma/generated/auction-client'
 import { PrismaClient as MailClient } from './prisma/generated/mail-client'
 import * as dotenv from 'dotenv'
 import { CreateAuctionForm, BidForm, BuyoutForm } from './interfaces'
 import { DateTime } from 'luxon';
+import { nanoid } from 'nanoid'
 
 const auctionClient = new AuctionClient()
 const mailClient = new MailClient()
 dotenv.config()
 
-const durationOptions = JSON.parse(process.env['AUCTION_DURATION_OPTIONS']!)
+const secretKeys: string = process.env['SECRET_KEYS']!
+const durationOptions: [] = JSON.parse(process.env['AUCTION_DURATION_OPTIONS']!)
+const userAccessToken: { [id: string]: string } = {}
+const accessingUserId: { [id: string]: string } = {}
+
+const validateUserAccess = async (request: fastifyPackage.FastifyRequest, reply: fastifyPackage.FastifyReply, done: (err?: Error) => void) => {
+    const header = request.headers.authorization!
+    const key = header.substring("Bearer".length).trim()
+    if (!Object.prototype.hasOwnProperty.call(userAccessToken, key)) {
+        done(new Error('Wrong access token'))
+        return
+    }
+    accessingUserId[request.id] = userAccessToken[key]
+}
 
 const server = fastify()
     .register(authPlugin)
+    .register(bearerAuthPlugin, {
+        keys: JSON.parse(secretKeys),
+        addHook: false,
+    })
     .after(() => {
-        server.get('/', {
-            preHandler: server.auth([
-
-            ]),
-        }, async (request, reply) => {
+        server.get('/', async (request, reply) => {
             const query: any = request.query
             const limit = query.limit ? query.limit : 20
             const page = query.page ? query.page : 1
@@ -37,11 +53,7 @@ const server = fastify()
             })
         })
 
-        server.get('/:id', {
-            preHandler: server.auth([
-
-            ]),
-        }, async (request, reply) => {
+        server.get('/:id', async (request, reply) => {
             const params: any = request.params
             const id = params.id
             const auction: any = await auctionClient.auction.findUnique({
@@ -58,13 +70,13 @@ const server = fastify()
 
         server.get('/history', {
             preHandler: server.auth([
-
+                validateUserAccess
             ]),
         }, async (request, reply) => {
             const query: any = request.query
             const limit = query.limit ? query.limit : 20
             const page = query.page ? query.page : 1
-            const userId = "" // TODO: Implement this
+            const userId = accessingUserId[request.id]
             const list = await auctionClient.auction.findMany({
                 where: {
                     isEnd: false,
@@ -78,6 +90,7 @@ const server = fastify()
                 limit,
                 page,
             })
+            delete accessingUserId[request.id]
         })
 
         server.get('/duration-options', async (request, reply) => {
@@ -86,9 +99,24 @@ const server = fastify()
             })
         })
 
+        server.get('/internal/access-token', {
+            preHandler: server.auth([
+                server.verifyBearerAuth!
+            ]),
+        }, async (request, reply) => {
+            const body: any = request.body
+            const userId = body.userId
+            const accessToken = nanoid(6)
+            userAccessToken[accessToken] = userId
+            reply.code(200).send({
+                userId: userId,
+                accessToken: accessToken,
+            })
+        })
+
         server.post<{ Body: CreateAuctionForm }>('/internal/auction', {
             preHandler: server.auth([
-                
+                server.verifyBearerAuth!
             ]),
         }, async (request, reply) => {
             const form: CreateAuctionForm = request.body
@@ -113,7 +141,7 @@ const server = fastify()
 
         server.post<{ Body: BidForm }>('/internal/bid', {
             preHandler: server.auth([
-                
+                server.verifyBearerAuth!
             ]),
         }, async (request, reply) => {
             const form: BidForm = request.body
@@ -152,7 +180,7 @@ const server = fastify()
 
         server.post<{ Body: BuyoutForm }>('/internal/buyout', {
             preHandler: server.auth([
-                
+                server.verifyBearerAuth!
             ]),
         }, async (request, reply) => {
             const form: BuyoutForm = request.body
