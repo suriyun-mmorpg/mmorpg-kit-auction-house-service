@@ -4,6 +4,7 @@ export interface CreateAuctionForm {
     buyoutPrice: number,
     sellerId: string,
     sellerName: string,
+    durationOption: number,
 }
 
 export interface BidForm {

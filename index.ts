@@ -10,6 +10,8 @@ const auctionClient = new AuctionClient()
 const mailClient = new MailClient()
 dotenv.config()
 
+const durationOptions = JSON.parse(process.env['AUCTION_DURATION_OPTIONS']!)
+
 const server = fastify()
     .register(authPlugin)
     .after(() => {
@@ -78,6 +80,12 @@ const server = fastify()
             })
         })
 
+        server.get('/duration-options', async (request, reply) => {
+            reply.code(200).send({
+                durationOptions: durationOptions
+            })
+        })
+
         server.post<{ Body: CreateAuctionForm }>('/internal/auction', {
             preHandler: server.auth([
                 
@@ -92,7 +100,7 @@ const server = fastify()
                     sellerId: form.sellerId,
                     sellerName: form.sellerName,
                     itemData: form.itemData,
-                    // Set ended at value
+                    endedAt: DateTime.local().plus({ hours: Number(durationOptions[form.durationOption]) }).toJSDate(),
                 }
             })
             if (!newAuction) {
