@@ -6,7 +6,7 @@ import { PrismaClient as AuctionClient } from './prisma/generated/auction-client
 import { PrismaClient as MailClient } from './prisma/generated/mail-client'
 import * as dotenv from 'dotenv'
 import { CreateAuctionForm, BidForm, BuyoutForm } from './interfaces'
-import { DateTime } from 'luxon';
+import { DateTime } from 'luxon'
 import { nanoid } from 'nanoid'
 
 const auctionClient = new AuctionClient()
