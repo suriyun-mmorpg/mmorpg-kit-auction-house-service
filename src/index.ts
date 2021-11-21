@@ -69,7 +69,7 @@ const server = fastify({ logger: true })
                 }
             })
             if (!auction) {
-                reply.code(400)
+                reply.code(400).send()
                 return
             }
             reply.code(200).send(auction)
@@ -201,7 +201,7 @@ const server = fastify({ logger: true })
                 }
             })
             if (!auction) {
-                reply.code(400)
+                reply.code(400).send()
                 return
             }
             const returnBuyerId = auction.buyerId;
@@ -221,11 +221,11 @@ const server = fastify({ logger: true })
                 }
             })
             if (updateResult.count === 0) {
-                reply.code(500)
+                reply.code(500).send()
                 return
             }
             await returnGold(returnBuyerId, returnCurrency)
-            reply.code(200)
+            reply.code(200).send()
         })
 
         server.post<{ Body: BuyoutForm }>('/internal/buyout', {
@@ -240,7 +240,7 @@ const server = fastify({ logger: true })
                 }
             })
             if (!auction) {
-                reply.code(400)
+                reply.code(400).send()
                 return
             }
             const returnBuyerId = auction.buyerId;
@@ -259,12 +259,12 @@ const server = fastify({ logger: true })
                 }
             })
             if (updateResult.count === 0) {
-                reply.code(500)
+                reply.code(500).send()
                 return
             }
             await sendItem(form.id)
             await returnGold(returnBuyerId, returnCurrency)
-            reply.code(200)
+            reply.code(200).send()
         })
     })
 
