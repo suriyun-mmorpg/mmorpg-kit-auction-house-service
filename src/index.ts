@@ -182,11 +182,11 @@ const server = fastify({ logger: true })
                 }
             })
             if (!newAuction) {
-                reply.code(500)
+                reply.code(500).send()
                 return
             }
             addUpdatingAuction(newAuction)
-            reply.code(200)
+            reply.code(200).send()
         })
 
         server.post<{ Body: BidForm }>('/internal/bid', {
