@@ -28,6 +28,8 @@ export type auction = {
   buyerId: string
   buyerName: string
   itemData: string
+  metaName: string
+  metaLevel: number
   endedAt: Date | null
   createdAt: Date
 }
@@ -707,6 +709,7 @@ export namespace Prisma {
     buyoutPrice: number | null
     bidPrice: number | null
     startBidPrice: number | null
+    metaLevel: number | null
   }
 
   export type AuctionSumAggregateOutputType = {
@@ -714,6 +717,7 @@ export namespace Prisma {
     buyoutPrice: number | null
     bidPrice: number | null
     startBidPrice: number | null
+    metaLevel: number | null
   }
 
   export type AuctionMinAggregateOutputType = {
@@ -728,6 +732,8 @@ export namespace Prisma {
     buyerId: string | null
     buyerName: string | null
     itemData: string | null
+    metaName: string | null
+    metaLevel: number | null
     endedAt: Date | null
     createdAt: Date | null
   }
@@ -744,6 +750,8 @@ export namespace Prisma {
     buyerId: string | null
     buyerName: string | null
     itemData: string | null
+    metaName: string | null
+    metaLevel: number | null
     endedAt: Date | null
     createdAt: Date | null
   }
@@ -760,6 +768,8 @@ export namespace Prisma {
     buyerId: number
     buyerName: number
     itemData: number
+    metaName: number
+    metaLevel: number
     endedAt: number
     createdAt: number
     _all: number
@@ -771,6 +781,7 @@ export namespace Prisma {
     buyoutPrice?: true
     bidPrice?: true
     startBidPrice?: true
+    metaLevel?: true
   }
 
   export type AuctionSumAggregateInputType = {
@@ -778,6 +789,7 @@ export namespace Prisma {
     buyoutPrice?: true
     bidPrice?: true
     startBidPrice?: true
+    metaLevel?: true
   }
 
   export type AuctionMinAggregateInputType = {
@@ -792,6 +804,8 @@ export namespace Prisma {
     buyerId?: true
     buyerName?: true
     itemData?: true
+    metaName?: true
+    metaLevel?: true
     endedAt?: true
     createdAt?: true
   }
@@ -808,6 +822,8 @@ export namespace Prisma {
     buyerId?: true
     buyerName?: true
     itemData?: true
+    metaName?: true
+    metaLevel?: true
     endedAt?: true
     createdAt?: true
   }
@@ -824,6 +840,8 @@ export namespace Prisma {
     buyerId?: true
     buyerName?: true
     itemData?: true
+    metaName?: true
+    metaLevel?: true
     endedAt?: true
     createdAt?: true
     _all?: true
@@ -928,6 +946,8 @@ export namespace Prisma {
     buyerId: string
     buyerName: string
     itemData: string
+    metaName: string
+    metaLevel: number
     endedAt: Date | null
     createdAt: Date
     count: AuctionCountAggregateOutputType | null
@@ -956,6 +976,8 @@ export namespace Prisma {
     buyerId?: boolean
     buyerName?: boolean
     itemData?: boolean
+    metaName?: boolean
+    metaLevel?: boolean
     endedAt?: boolean
     createdAt?: boolean
   }
@@ -2386,6 +2408,8 @@ export namespace Prisma {
     buyerId: 'buyerId',
     buyerName: 'buyerName',
     itemData: 'itemData',
+    metaName: 'metaName',
+    metaLevel: 'metaLevel',
     endedAt: 'endedAt',
     createdAt: 'createdAt'
   };
@@ -2433,6 +2457,8 @@ export namespace Prisma {
     buyerId?: StringFilter | string
     buyerName?: StringFilter | string
     itemData?: StringFilter | string
+    metaName?: StringFilter | string
+    metaLevel?: IntFilter | number
     endedAt?: DateTimeNullableFilter | Date | string | null
     createdAt?: DateTimeFilter | Date | string
   }
@@ -2449,6 +2475,8 @@ export namespace Prisma {
     buyerId?: SortOrder
     buyerName?: SortOrder
     itemData?: SortOrder
+    metaName?: SortOrder
+    metaLevel?: SortOrder
     endedAt?: SortOrder
     createdAt?: SortOrder
   }
@@ -2472,6 +2500,8 @@ export namespace Prisma {
     buyerId?: StringWithAggregatesFilter | string
     buyerName?: StringWithAggregatesFilter | string
     itemData?: StringWithAggregatesFilter | string
+    metaName?: StringWithAggregatesFilter | string
+    metaLevel?: IntWithAggregatesFilter | number
     endedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter | Date | string
   }
@@ -2524,6 +2554,8 @@ export namespace Prisma {
     buyerId?: string
     buyerName?: string
     itemData: string
+    metaName?: string
+    metaLevel?: number
     endedAt?: Date | string | null
     createdAt?: Date | string
   }
@@ -2540,6 +2572,8 @@ export namespace Prisma {
     buyerId?: string
     buyerName?: string
     itemData: string
+    metaName?: string
+    metaLevel?: number
     endedAt?: Date | string | null
     createdAt?: Date | string
   }
@@ -2555,6 +2589,8 @@ export namespace Prisma {
     buyerId?: StringFieldUpdateOperationsInput | string
     buyerName?: StringFieldUpdateOperationsInput | string
     itemData?: StringFieldUpdateOperationsInput | string
+    metaName?: StringFieldUpdateOperationsInput | string
+    metaLevel?: IntFieldUpdateOperationsInput | number
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -2571,6 +2607,8 @@ export namespace Prisma {
     buyerId?: StringFieldUpdateOperationsInput | string
     buyerName?: StringFieldUpdateOperationsInput | string
     itemData?: StringFieldUpdateOperationsInput | string
+    metaName?: StringFieldUpdateOperationsInput | string
+    metaLevel?: IntFieldUpdateOperationsInput | number
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -2587,6 +2625,8 @@ export namespace Prisma {
     buyerId?: string
     buyerName?: string
     itemData: string
+    metaName?: string
+    metaLevel?: number
     endedAt?: Date | string | null
     createdAt?: Date | string
   }
@@ -2602,6 +2642,8 @@ export namespace Prisma {
     buyerId?: StringFieldUpdateOperationsInput | string
     buyerName?: StringFieldUpdateOperationsInput | string
     itemData?: StringFieldUpdateOperationsInput | string
+    metaName?: StringFieldUpdateOperationsInput | string
+    metaLevel?: IntFieldUpdateOperationsInput | number
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -2618,6 +2660,8 @@ export namespace Prisma {
     buyerId?: StringFieldUpdateOperationsInput | string
     buyerName?: StringFieldUpdateOperationsInput | string
     itemData?: StringFieldUpdateOperationsInput | string
+    metaName?: StringFieldUpdateOperationsInput | string
+    metaLevel?: IntFieldUpdateOperationsInput | number
     endedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
