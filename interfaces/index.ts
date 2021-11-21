@@ -1,5 +1,7 @@
 export interface CreateAuctionForm {
     itemData: string,
+    metaName: string,
+    metaLevel: number,
     startPrice: number,
     buyoutPrice: number,
     sellerId: string,

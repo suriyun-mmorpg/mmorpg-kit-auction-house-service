@@ -46,10 +46,17 @@ const server = fastify()
                 skip: (page - 1) * limit,
                 take: limit,
             })
+            const count = await auctionClient.auction.count({
+                where: {
+                    isEnd: false
+                }
+            })
+            const totalPage = Math.ceil(count / limit);
             reply.code(200).send({
                 list,
                 limit,
                 page,
+                totalPage,
             })
         })
 
@@ -68,7 +75,7 @@ const server = fastify()
             reply.code(200).send(auction)
         })
 
-        server.get('/history', {
+        server.get('/sell-history', {
             preHandler: server.auth([
                 validateUserAccess
             ]),
@@ -85,10 +92,51 @@ const server = fastify()
                 skip: (page - 1) * limit,
                 take: limit,
             })
+            const count = await auctionClient.auction.count({
+                where: {
+                    isEnd: false,
+                    sellerId: userId,
+                }
+            })
+            const totalPage = Math.ceil(count / limit);
             reply.code(200).send({
                 list,
                 limit,
                 page,
+                totalPage,
+            })
+            delete accessingUserId[request.id]
+        })
+
+        server.get('/buy-history', {
+            preHandler: server.auth([
+                validateUserAccess
+            ]),
+        }, async (request, reply) => {
+            const query: any = request.query
+            const limit = query.limit ? query.limit : 20
+            const page = query.page ? query.page : 1
+            const userId = accessingUserId[request.id]
+            const list = await auctionClient.auction.findMany({
+                where: {
+                    isEnd: false,
+                    buyerId: userId,
+                },
+                skip: (page - 1) * limit,
+                take: limit,
+            })
+            const count = await auctionClient.auction.count({
+                where: {
+                    isEnd: false,
+                    sellerId: userId,
+                }
+            })
+            const totalPage = Math.ceil(count / limit);
+            reply.code(200).send({
+                list,
+                limit,
+                page,
+                totalPage,
             })
             delete accessingUserId[request.id]
         })
@@ -128,6 +176,8 @@ const server = fastify()
                     sellerId: form.sellerId,
                     sellerName: form.sellerName,
                     itemData: form.itemData,
+                    metaName: form.metaName,
+                    metaLevel: form.metaLevel,
                     endedAt: DateTime.local().plus({ hours: Number(durationOptions[form.durationOption]) }).toJSDate(),
                 }
             })
