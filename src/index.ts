@@ -37,8 +37,8 @@ const server = fastify({ logger: true })
     .after(() => {
         server.get('/', async (request, reply) => {
             const query: any = request.query
-            const limit = query.limit ? query.limit : 20
-            const page = query.page ? query.page : 1
+            const limit = Number(query.limit ? query.limit : 20)
+            const page = Number(query.page ? query.page : 1)
             const list = await auctionClient.auction.findMany({
                 where: {
                     isEnd: false
@@ -81,8 +81,8 @@ const server = fastify({ logger: true })
             ]),
         }, async (request, reply) => {
             const query: any = request.query
-            const limit = query.limit ? query.limit : 20
-            const page = query.page ? query.page : 1
+            const limit = Number(query.limit ? query.limit : 20)
+            const page = Number(query.page ? query.page : 1)
             const userId = accessingUserId[request.id]
             const list = await auctionClient.auction.findMany({
                 where: {
@@ -114,8 +114,8 @@ const server = fastify({ logger: true })
             ]),
         }, async (request, reply) => {
             const query: any = request.query
-            const limit = query.limit ? query.limit : 20
-            const page = query.page ? query.page : 1
+            const limit = Number(query.limit ? query.limit : 20)
+            const page = Number(query.page ? query.page : 1)
             const userId = accessingUserId[request.id]
             const list = await auctionClient.auction.findMany({
                 where: {
@@ -152,8 +152,8 @@ const server = fastify({ logger: true })
                 server.verifyBearerAuth!
             ]),
         }, async (request, reply) => {
-            const body: any = request.body
-            const userId = body.userId
+            const query: any = request.query
+            const userId = query.userId
             const accessToken = nanoid(6)
             userAccessToken[accessToken] = userId
             reply.code(200).send({
