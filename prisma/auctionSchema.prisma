@@ -20,6 +20,8 @@ model auction {
   buyerId                     String      @db.VarChar(50) @default("")
   buyerName                   String      @db.VarChar(32) @default("")
   itemData                    String      @db.Text
+  metaName                    String      @db.VarChar(128) @default("")
+  metaLevel                   Int         @default(0)
   endedAt                     DateTime?
   createdAt                   DateTime    @default(now())
 }
