@@ -28,6 +28,12 @@ const validateUserAccess = async (request: fastifyPackage.FastifyRequest, reply:
     accessingUserId[request.id] = userAccessToken[key]
 }
 
+const findTimeLeft = (endedAt: DateTime): number => {
+    const currentTime = DateTime.local()
+    const diff = endedAt.diff(currentTime, ["milliseconds"])
+    return Number(diff.toObject()['milliseconds'])
+}
+
 const server = fastify({ logger: true })
     .register(authPlugin)
     .register(bearerAuthPlugin, {
@@ -39,7 +45,7 @@ const server = fastify({ logger: true })
             const query: any = request.query
             const limit = Number(query.limit ? query.limit : 20)
             const page = Number(query.page ? query.page : 1)
-            const list = await auctionClient.auction.findMany({
+            const list: any[] = await auctionClient.auction.findMany({
                 where: {
                     isEnd: false
                 },
@@ -51,6 +57,9 @@ const server = fastify({ logger: true })
                     isEnd: false
                 }
             })
+            for (let i = 0; i < list.length; ++i) {
+                list[i].timeLeft = findTimeLeft(DateTime.fromJSDate(list[i].endedAt).toLocal())
+            }
             const totalPage = Math.ceil(count / limit);
             reply.code(200).send({
                 list,
@@ -84,7 +93,7 @@ const server = fastify({ logger: true })
             const limit = Number(query.limit ? query.limit : 20)
             const page = Number(query.page ? query.page : 1)
             const userId = accessingUserId[request.id]
-            const list = await auctionClient.auction.findMany({
+            const list: any[] = await auctionClient.auction.findMany({
                 where: {
                     isEnd: false,
                     sellerId: userId,
@@ -98,6 +107,9 @@ const server = fastify({ logger: true })
                     sellerId: userId,
                 }
             })
+            for (let i = 0; i < list.length; ++i) {
+                list[i].timeLeft = findTimeLeft(DateTime.fromJSDate(list[i].endedAt).toLocal())
+            }
             const totalPage = Math.ceil(count / limit);
             reply.code(200).send({
                 list,
@@ -117,7 +129,7 @@ const server = fastify({ logger: true })
             const limit = Number(query.limit ? query.limit : 20)
             const page = Number(query.page ? query.page : 1)
             const userId = accessingUserId[request.id]
-            const list = await auctionClient.auction.findMany({
+            const list: any[] = await auctionClient.auction.findMany({
                 where: {
                     isEnd: false,
                     buyerId: userId,
@@ -131,6 +143,9 @@ const server = fastify({ logger: true })
                     sellerId: userId,
                 }
             })
+            for (let i = 0; i < list.length; ++i) {
+                list[i].timeLeft = findTimeLeft(DateTime.fromJSDate(list[i].endedAt).toLocal())
+            }
             const totalPage = Math.ceil(count / limit);
             reply.code(200).send({
                 list,
