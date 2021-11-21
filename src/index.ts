@@ -2,8 +2,8 @@ import fastify from 'fastify'
 import * as fastifyPackage from 'fastify'
 import authPlugin from 'fastify-auth'
 import bearerAuthPlugin from 'fastify-bearer-auth'
-import { PrismaClient as AuctionClient } from './prisma/generated/auction-client'
-import { PrismaClient as MailClient } from './prisma/generated/mail-client'
+import { PrismaClient as AuctionClient } from '../prisma/generated/auction-client'
+import { PrismaClient as MailClient } from '../prisma/generated/mail-client'
 import * as dotenv from 'dotenv'
 import { CreateAuctionForm, BidForm, BuyoutForm } from './interfaces'
 import { DateTime } from 'luxon'
@@ -28,7 +28,7 @@ const validateUserAccess = async (request: fastifyPackage.FastifyRequest, reply:
     accessingUserId[request.id] = userAccessToken[key]
 }
 
-const server = fastify()
+const server = fastify({ logger: true })
     .register(authPlugin)
     .register(bearerAuthPlugin, {
         keys: JSON.parse(secretKeys),
