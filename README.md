@@ -5,6 +5,7 @@ Auction house service for MMORPG KIT
 - Copy `.env.example`
 - Rename copied file to `.env`
 - Open `.env` and changes configs
+- Open `auction-conf.json` and changes configs
 
 ## Install, Build and Start
 ```
