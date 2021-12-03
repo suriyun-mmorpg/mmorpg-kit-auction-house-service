@@ -8,13 +8,14 @@ import * as dotenv from 'dotenv'
 import { CreateAuctionForm, BidForm, BuyoutForm } from './interfaces'
 import { DateTime } from 'luxon'
 import { nanoid } from 'nanoid'
+import * as auctionConfig from '../auction-conf.json'
 
 const auctionClient = new AuctionClient()
 const mailClient = new MailClient()
 dotenv.config()
 
 const secretKeys: string = process.env['SECRET_KEYS']!
-const durationOptions: [] = JSON.parse(process.env['AUCTION_DURATION_OPTIONS']!)
+const durationOptions: { hours: number; }[] = auctionConfig.auction_options
 const userAccessToken: { [id: string]: string } = {}
 const accessingUserId: { [id: string]: string } = {}
 
@@ -345,11 +346,11 @@ const sendItem = async (id: number) => {
     await mailClient.mail.create({
         data: {
             eventId: "",
-            senderId: process.env['MAIL_SENDER_ID']!,
-            senderName: process.env['MAIL_SENDER_NAME']!,
-            receiverId: auction.buyerId,
-            title: process.env['MAIL_BOUGHT_TITLE']!,
-            content: process.env['MAIL_BOUGHT_CONTENT']!,
+            senderId: auctionConfig.mail_sender_id,
+            senderName: auctionConfig.mail_sender_name,
+            receiverId:  auction.buyerId,
+            title: auctionConfig.mail_bought_title,
+            content: auctionConfig.mail_bought_content,
             currencies: "",
             items: auction.itemData,
         }
@@ -357,11 +358,11 @@ const sendItem = async (id: number) => {
     await mailClient.mail.create({
         data: {
             eventId: "",
-            senderId: process.env['MAIL_SENDER_ID']!,
-            senderName: process.env['MAIL_SENDER_NAME']!,
+            senderId: auctionConfig.mail_sender_id,
+            senderName: auctionConfig.mail_sender_name,
             receiverId: auction.sellerId,
-            title: process.env['MAIL_SOLD_TITLE']!,
-            content: process.env['MAIL_SOLD_CONTENT']!,
+            title: auctionConfig.mail_sold_title,
+            content: auctionConfig.mail_sold_content,
             currencies: "",
             items: auction.itemData,
         }
@@ -372,11 +373,11 @@ const returnGold = async (userId: string, gold: number) => {
     await mailClient.mail.create({
         data: {
             eventId: "",
-            senderId: process.env['MAIL_SENDER_ID']!,
-            senderName: process.env['MAIL_SENDER_NAME']!,
+            senderId: auctionConfig.mail_sender_id,
+            senderName: auctionConfig.mail_sender_name,
             receiverId: userId,
-            title: process.env['MAIL_BID_CURRENCY_RETURN_TITLE']!,
-            content: process.env['MAIL_BID_CURRENCY_RETURN_CONTENT']!,
+            title: auctionConfig.mail_bid_currency_return_title,
+            content: auctionConfig.mail_bid_currency_return_content,
             currencies: "",
             items: "",
             gold: gold,

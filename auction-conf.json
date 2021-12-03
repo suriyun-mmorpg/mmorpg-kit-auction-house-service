@@ -1,0 +1,21 @@
+{
+    "mail_sender_id": "System",
+    "mail_sender_name": "Auction Manager",
+    "mail_bought_title": "Auction Item",
+    "mail_bought_content": "",
+    "mail_sold_title": "Auction Item",
+    "mail_sold_content": "",
+    "mail_bid_currency_return_title": "Return Bid Gold",
+    "mail_bid_currency_return_content": "",
+    "auction_options": [
+        {
+            "hours": 12
+        },
+        {
+            "hours": 24
+        },
+        {
+            "hours": 48
+        }
+    ]
+}
