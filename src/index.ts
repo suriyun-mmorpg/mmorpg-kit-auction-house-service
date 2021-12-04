@@ -8,14 +8,14 @@ import * as dotenv from 'dotenv'
 import { CreateAuctionForm, BidForm, BuyoutForm } from './interfaces'
 import { DateTime } from 'luxon'
 import { nanoid } from 'nanoid'
-import * as auctionConfig from '../auction-conf.json'
+import * as auctionConfig from '../config/auction-conf.json'
 
 const auctionClient = new AuctionClient()
 const mailClient = new MailClient()
 dotenv.config()
 
 const secretKeys: string = process.env['SECRET_KEYS']!
-const durationOptions: { hours: number; }[] = auctionConfig.auction_options
+const durationOptions: { hours: number; price: number; }[] = auctionConfig.auction_options
 const userAccessToken: { [id: string]: string } = {}
 const accessingUserId: { [id: string]: string } = {}
 
@@ -194,7 +194,7 @@ const server = fastify({ logger: true })
                     itemData: form.itemData,
                     metaName: form.metaName,
                     metaLevel: form.metaLevel,
-                    endedAt: DateTime.local().plus({ hours: Number(durationOptions[form.durationOption]) }).toJSDate(),
+                    endedAt: DateTime.local().plus({ hours: durationOptions[form.durationOption].hours }).toJSDate(),
                 }
             })
             if (!newAuction) {
