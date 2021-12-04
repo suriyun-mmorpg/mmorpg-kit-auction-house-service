@@ -296,19 +296,18 @@ const auctionUpdateLoopInitialze = async () => {
         addUpdatingAuction(auction)
     });
     auctionUpdateLoop()
+    setInterval(auctionUpdateLoop, 5000)
 }
 
 const auctionUpdateLoop = () => {
-    setTimeout(auctionUpdateLoop, 5000)
     // Loop to update auction ending
     const currentDate = DateTime.local().toJSDate()
-    const currentMilliseconds = currentDate.getMilliseconds()
     for (const id in updatingAuctions) {
         if (!Object.prototype.hasOwnProperty.call(updatingAuctions, id)) {
             continue
         }
         const updatingAuction = updatingAuctions[id];
-        if (currentMilliseconds > updatingAuction.endedAt) {
+        if (currentDate > updatingAuction.endedAt) {
             // Auction ended
             auctionClient.auction.updateMany({
                 where: {
