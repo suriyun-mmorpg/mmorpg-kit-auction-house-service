@@ -213,19 +213,26 @@ const server = fastify({ logger: true })
                 }
             })
             if (!auction) {
-                reply.code(400).send()
+                // No auction data
+                reply.code(404).send()
                 return
             }
             if (form.userId == auction.sellerId) {
+                // Seller cannot bid
                 reply.code(405).send()
                 return;
             }
-            if (auction.buyoutPrice <= 0 ||
-                form.price > auction.buyoutPrice) {
+            if (form.price < auction.bidPrice) {
+                // Cannot bid
                 reply.code(405).send()
                 return;
             }
-            const returnBuyerId = auction.buyerId;
+            if (auction.buyoutPrice > 0 && form.price >= auction.buyoutPrice) {
+                // Cannot bid
+                reply.code(405).send()
+                return;
+            }
+            const returnBuyerId = auction.buyerId
             const returnCurrency = auction.bidPrice
             const updateResult = await auctionClient.auction.updateMany({
                 where: {
@@ -261,10 +268,17 @@ const server = fastify({ logger: true })
                 }
             })
             if (!auction) {
-                reply.code(400).send()
+                // No auction data
+                reply.code(404).send()
                 return
             }
             if (form.userId == auction.sellerId) {
+                // Seller cannot buy
+                reply.code(405).send()
+                return;
+            }
+            if (auction.buyoutPrice <= 0) {
+                // Cannot buy
                 reply.code(405).send()
                 return;
             }
