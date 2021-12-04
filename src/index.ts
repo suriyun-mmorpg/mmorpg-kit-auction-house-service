@@ -96,7 +96,6 @@ const server = fastify({ logger: true })
             const userId = accessingUserId[request.id]
             const list: any[] = await auctionClient.auction.findMany({
                 where: {
-                    isEnd: false,
                     sellerId: userId,
                 },
                 skip: (page - 1) * limit,
@@ -104,7 +103,6 @@ const server = fastify({ logger: true })
             })
             const count = await auctionClient.auction.count({
                 where: {
-                    isEnd: false,
                     sellerId: userId,
                 }
             })
@@ -132,7 +130,6 @@ const server = fastify({ logger: true })
             const userId = accessingUserId[request.id]
             const list: any[] = await auctionClient.auction.findMany({
                 where: {
-                    isEnd: false,
                     buyerId: userId,
                 },
                 skip: (page - 1) * limit,
@@ -140,7 +137,6 @@ const server = fastify({ logger: true })
             })
             const count = await auctionClient.auction.count({
                 where: {
-                    isEnd: false,
                     sellerId: userId,
                 }
             })
