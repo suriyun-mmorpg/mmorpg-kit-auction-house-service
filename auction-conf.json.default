@@ -9,13 +9,16 @@
     "mail_bid_currency_return_content": "",
     "auction_options": [
         {
-            "hours": 12
+            "hours": 12,
+            "price": 1
         },
         {
-            "hours": 24
+            "hours": 24,
+            "price": 2
         },
         {
-            "hours": 48
+            "hours": 48,
+            "price": 4
         }
     ]
 }
