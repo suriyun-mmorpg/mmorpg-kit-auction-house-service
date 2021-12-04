@@ -8,8 +8,8 @@ import * as dotenv from 'dotenv'
 import { CreateAuctionForm, BidForm, BuyoutForm } from './interfaces'
 import { DateTime } from 'luxon'
 import { nanoid } from 'nanoid'
-import * as auctionConfig from '../config/auction-conf.json'
 
+const auctionConfig = require('../auction-conf.json')
 const auctionClient = new AuctionClient()
 const mailClient = new MailClient()
 dotenv.config()
