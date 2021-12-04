@@ -72,7 +72,7 @@ const server = fastify({ logger: true })
 
         server.get('/:id', async (request, reply) => {
             const params: any = request.params
-            const id = params.id
+            const id = Number(params.id)
             const auction: any = await auctionClient.auction.findUnique({
                 where: {
                     id: id
@@ -220,6 +220,16 @@ const server = fastify({ logger: true })
                 reply.code(400).send()
                 return
             }
+            if (form.userId == auction.sellerId ||
+                form.userId == auction.buyerId) {
+                reply.code(405).send()
+                return;
+            }
+            if (auction.buyoutPrice <= 0 ||
+                form.price > auction.buyoutPrice) {
+                reply.code(405).send()
+                return;
+            }
             const returnBuyerId = auction.buyerId;
             const returnCurrency = auction.bidPrice
             const updateResult = await auctionClient.auction.updateMany({
@@ -258,6 +268,11 @@ const server = fastify({ logger: true })
             if (!auction) {
                 reply.code(400).send()
                 return
+            }
+            if (form.userId == auction.sellerId ||
+                form.userId == auction.buyerId) {
+                reply.code(405).send()
+                return;
             }
             const returnBuyerId = auction.buyerId;
             const returnCurrency = auction.bidPrice
