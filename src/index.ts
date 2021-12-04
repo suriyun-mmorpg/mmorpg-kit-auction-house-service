@@ -378,12 +378,15 @@ const sendItem = async (id: number) => {
             title: auctionConfig.mail_sold_title,
             content: auctionConfig.mail_sold_content,
             currencies: "",
-            items: auction.itemData,
+            items: "",
         }
     })
 }
 
 const returnGold = async (userId: string, gold: number) => {
+    if (!userId || userId.length == 0) {
+        return
+    }
     await mailClient.mail.create({
         data: {
             eventId: "",
