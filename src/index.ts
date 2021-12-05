@@ -365,32 +365,54 @@ const sendItem = async (id: number) => {
     if (!auction) {
         return
     }
-    await mailClient.mail.create({
-        data: {
-            eventId: "",
-            senderId: auctionConfig.mail_sender_id,
-            senderName: auctionConfig.mail_sender_name,
-            receiverId:  auction.buyerId,
-            title: auctionConfig.mail_bought_title,
-            content: auctionConfig.mail_bought_content,
-            currencies: "",
-            items: auction.itemData,
-            gold: 0,
-        }
-    })
-    await mailClient.mail.create({
-        data: {
-            eventId: "",
-            senderId: auctionConfig.mail_sender_id,
-            senderName: auctionConfig.mail_sender_name,
-            receiverId: auction.sellerId,
-            title: auctionConfig.mail_sold_title,
-            content: auctionConfig.mail_sold_content,
-            currencies: "",
-            items: "",
-            gold: auction.bidPrice,
-        }
-    })
+    if (!auction.buyerId || auction.buyerId.length == 0)
+    {
+        // Send item to seller
+        await mailClient.mail.create({
+            data: {
+                eventId: "",
+                senderId: auctionConfig.mail_sender_id,
+                senderName: auctionConfig.mail_sender_name,
+                receiverId: auction.sellerId,
+                title: auctionConfig.mail_sold_title,
+                content: auctionConfig.mail_sold_content,
+                currencies: "",
+                items: auction.itemData,
+                gold: 0,
+            }
+        })
+    }
+    else
+    {
+        // Send item to buyer
+        await mailClient.mail.create({
+            data: {
+                eventId: "",
+                senderId: auctionConfig.mail_sender_id,
+                senderName: auctionConfig.mail_sender_name,
+                receiverId:  auction.buyerId,
+                title: auctionConfig.mail_bought_title,
+                content: auctionConfig.mail_bought_content,
+                currencies: "",
+                items: auction.itemData,
+                gold: 0,
+            }
+        })
+        // Send gold to seller
+        await mailClient.mail.create({
+            data: {
+                eventId: "",
+                senderId: auctionConfig.mail_sender_id,
+                senderName: auctionConfig.mail_sender_name,
+                receiverId: auction.sellerId,
+                title: auctionConfig.mail_sold_title,
+                content: auctionConfig.mail_sold_content,
+                currencies: "",
+                items: "",
+                gold: auction.bidPrice,
+            }
+        })
+    }
 }
 
 const sendItemForBuyout = async (id: number) => {
@@ -402,6 +424,7 @@ const sendItemForBuyout = async (id: number) => {
     if (!auction) {
         return
     }
+    // Send item to buyer
     await mailClient.mail.create({
         data: {
             eventId: "",
@@ -415,6 +438,7 @@ const sendItemForBuyout = async (id: number) => {
             gold: 0,
         }
     })
+    // Send gold to seller
     await mailClient.mail.create({
         data: {
             eventId: "",
