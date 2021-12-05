@@ -82,6 +82,7 @@ const server = fastify({ logger: true })
                 reply.code(400).send()
                 return
             }
+            auction.timeLeft = findTimeLeft(DateTime.fromJSDate(auction.endedAt).toLocal())
             reply.code(200).send(auction)
         })
 
