@@ -219,17 +219,17 @@ const server = fastify({ logger: true })
             }
             if (form.userId == auction.sellerId) {
                 // Seller cannot bid
-                reply.code(405).send()
+                reply.code(403).send()
                 return;
             }
-            if (form.price < auction.bidPrice) {
+            if (form.price <= auction.bidPrice) {
                 // Cannot bid
-                reply.code(405).send()
+                reply.code(400).send()
                 return;
             }
             if (auction.buyoutPrice > 0 && form.price >= auction.buyoutPrice) {
                 // Cannot bid
-                reply.code(405).send()
+                reply.code(400).send()
                 return;
             }
             const returnBuyerId = auction.buyerId
@@ -274,12 +274,12 @@ const server = fastify({ logger: true })
             }
             if (form.userId == auction.sellerId) {
                 // Seller cannot buy
-                reply.code(405).send()
+                reply.code(403).send()
                 return;
             }
             if (auction.buyoutPrice <= 0) {
                 // Cannot buy
-                reply.code(405).send()
+                reply.code(403).send()
                 return;
             }
             const returnBuyerId = auction.buyerId;
