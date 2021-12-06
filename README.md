@@ -8,6 +8,10 @@ Auction house service for MMORPG KIT
 - Clone this repo
 - `npm i`
 
+## Generate Prisma Clients
+- `npx prisma generate --schema "./prisma/auctionSchema.prisma"`
+- `npx prisma generate --schema "./prisma/mailSchema.prisma"`
+
 ## Configs
 - Copy `.env.example`
 - Rename copied file to `.env`
