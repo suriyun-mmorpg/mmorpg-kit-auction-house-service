@@ -253,6 +253,15 @@ const server = fastify({ logger: true })
                 reply.code(500).send()
                 return
             }
+            auctionClient.auction_bid_logs.create({
+                data: {
+                    auctionId: form.id,
+                    buyerId: form.userId,
+                    buyerName: form.characterName,
+                    bidPrice: form.price,
+                    isBuyout: false
+                }
+            })
             await returnGold(returnBuyerId, returnCurrency)
             reply.code(200).send()
         })
@@ -293,6 +302,7 @@ const server = fastify({ logger: true })
                 data: {
                     buyerId: form.userId,
                     buyerName: form.characterName,
+                    bidPrice: auction.buyoutPrice,
                     isBuyout: true,
                     isEnd: true,
                     endedAt: DateTime.local().toJSDate(),
@@ -303,6 +313,15 @@ const server = fastify({ logger: true })
                 return
             }
             await sendItemForBuyout(form.id)
+            auctionClient.auction_bid_logs.create({
+                data: {
+                    auctionId: form.id,
+                    buyerId: form.userId,
+                    buyerName: form.characterName,
+                    bidPrice: auction.buyoutPrice,
+                    isBuyout: true
+                }
+            })
             await returnGold(returnBuyerId, returnCurrency)
             reply.code(200).send()
         })
