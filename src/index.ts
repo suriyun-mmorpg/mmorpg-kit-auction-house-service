@@ -510,7 +510,7 @@ const sendItemForCancelledSeller = async (id: number) => {
             eventId: "",
             senderId: auctionConfig.mail_sender_id,
             senderName: auctionConfig.mail_sender_name,
-            receiverId:  auction.buyerId,
+            receiverId:  auction.sellerId,
             title: auctionConfig.mail_auction_cancelled_title,
             content: auctionConfig.mail_auction_cancelled_content,
             currencies: "",
