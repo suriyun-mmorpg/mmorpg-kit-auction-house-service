@@ -5,7 +5,7 @@ import bearerAuthPlugin from 'fastify-bearer-auth'
 import { PrismaClient as AuctionClient } from '../prisma/generated/auction-client'
 import { PrismaClient as MailClient } from '../prisma/generated/mail-client'
 import * as dotenv from 'dotenv'
-import { CreateAuctionForm, BidForm, BuyoutForm } from './interfaces'
+import { CreateAuctionForm, BidForm, BuyoutForm, CancelAuctionForm } from './interfaces'
 import { DateTime } from 'luxon'
 import { nanoid } from 'nanoid'
 
@@ -199,6 +199,46 @@ const server = fastify({ logger: true })
                 return
             }
             addUpdatingAuction(newAuction)
+            reply.code(200).send()
+        })
+
+        server.post<{ Body: CancelAuctionForm }>('/internal/cancel-auction', {
+            preHandler: server.auth([
+                server.verifyBearerAuth!
+            ]),
+        }, async (request, reply) => {
+            const form: CancelAuctionForm = request.body
+            const auction: any = await auctionClient.auction.findUnique({
+                where: {
+                    id: form.id
+                }
+            })
+            if (!auction) {
+                // No auction data
+                reply.code(404).send()
+                return
+            }
+            if (form.userId != auction.sellerId) {
+                // Non-seller cannot cancel
+                reply.code(403).send()
+                return;
+            }
+            const updateResult = await auctionClient.auction.updateMany({
+                where: {
+                    id: form.id,
+                    isEnd: false,
+                },
+                data: {
+                    isBuyout: false,
+                    isEnd: true,
+                    endedAt: DateTime.local().toJSDate(),
+                }
+            })
+            if (updateResult.count === 0) {
+                reply.code(500).send()
+                return
+            }
+            await sendItemForCancelledSeller(form.id)
             reply.code(200).send()
         })
 
@@ -433,6 +473,31 @@ const sendItem = async (id: number) => {
             }
         })
     }
+}
+
+const sendItemForCancelledSeller = async (id: number) => {
+    const auction = await auctionClient.auction.findUnique({
+        where: {
+            id: id
+        }
+    })
+    if (!auction) {
+        return
+    }
+    // Send item to seller
+    await mailClient.mail.create({
+        data: {
+            eventId: "",
+            senderId: auctionConfig.mail_sender_id,
+            senderName: auctionConfig.mail_sender_name,
+            receiverId:  auction.buyerId,
+            title: auctionConfig.mail_auction_cancelled_title,
+            content: auctionConfig.mail_auction_cancelled_content,
+            currencies: "",
+            items: auction.itemData,
+            gold: 0,
+        }
+    })
 }
 
 const sendItemForBuyout = async (id: number) => {
