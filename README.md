@@ -31,3 +31,6 @@ After you set `AUCTION_DATABASE_URL` properly, then you have to push tables by u
 npm run build
 npm run start
 ```
+
+## Want to use SQLite?
+Try change schema.prisma -> datasource db to use SQLite, learn about it [here](https://www.prisma.io/docs/concepts/database-connectors/sqlite)
