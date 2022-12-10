@@ -218,8 +218,18 @@ const server = fastify({ logger: true })
                 reply.code(404).send()
                 return
             }
+            if (auction.isEnd) {
+                // Auction ended
+                reply.code(403).send()
+                return;
+            }
             if (form.userId != auction.sellerId) {
                 // Non-seller cannot cancel
+                reply.code(403).send()
+                return;
+            }
+            if (auction.buyerId) {
+                // Don't allow to cancel if it has someone make a bid
                 reply.code(403).send()
                 return;
             }
@@ -257,6 +267,11 @@ const server = fastify({ logger: true })
                 // No auction data
                 reply.code(404).send()
                 return
+            }
+            if (auction.isEnd) {
+                // Auction ended
+                reply.code(403).send()
+                return;
             }
             if (form.userId == auction.sellerId) {
                 // Seller cannot bid
@@ -321,6 +336,11 @@ const server = fastify({ logger: true })
                 // No auction data
                 reply.code(404).send()
                 return
+            }
+            if (auction.isEnd) {
+                // Auction ended
+                reply.code(403).send()
+                return;
             }
             if (form.userId == auction.sellerId) {
                 // Seller cannot buy
