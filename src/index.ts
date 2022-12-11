@@ -278,6 +278,11 @@ const server = fastify({ logger: true })
                 reply.code(403).send()
                 return;
             }
+            if (form.userId == auction.buyerId) {
+                // Bidder cannot over bid themself
+                reply.code(403).send()
+                return;
+            }
             if (form.price <= auction.bidPrice) {
                 // Cannot bid
                 reply.code(400).send()
