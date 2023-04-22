@@ -1,7 +1,6 @@
-import fastify from 'fastify'
-import * as fastifyPackage from 'fastify'
-import authPlugin from 'fastify-auth'
-import bearerAuthPlugin from 'fastify-bearer-auth'
+import fastify, { FastifyRequest, FastifyReply, FastifyListenOptions } from 'fastify'
+import authPlugin from '@fastify/auth'
+import bearerAuthPlugin from '@fastify/bearer-auth'
 import { PrismaClient as AuctionClient } from '../prisma/generated/auction-client'
 import { PrismaClient as MailClient } from '../prisma/generated/mail-client'
 import * as dotenv from 'dotenv'
@@ -19,7 +18,7 @@ const durationOptions: { hours: number; price: number; }[] = auctionConfig.aucti
 const userAccessToken: { [id: string]: string } = {}
 const accessingUserId: { [id: string]: string } = {}
 
-const validateUserAccess = async (request: fastifyPackage.FastifyRequest, reply: fastifyPackage.FastifyReply, done: (err?: Error) => void) => {
+const validateUserAccess = async (request: FastifyRequest, reply: FastifyReply, done: (err?: Error) => void) => {
     const header = request.headers.authorization!
     const key = header.substring("Bearer".length).trim()
     if (!Object.prototype.hasOwnProperty.call(userAccessToken, key)) {
@@ -583,7 +582,11 @@ const returnGold = async (userId: string, gold: number) => {
     })
 }
 
-server.listen(Number(process.env['PORT']), String(process.env['ADDRESS']), (err, address) => {
+const options: FastifyListenOptions = {
+    host: String(process.env['ADDRESS']),
+    port: Number(process.env['PORT']),
+}
+server.listen(options, (err, address) => {
     if (err) {
         console.error(err)
         process.exit(1)
