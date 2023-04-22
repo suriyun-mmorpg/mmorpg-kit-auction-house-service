@@ -1,6 +1,6 @@
 {
   "name": "mmorpg-kit-auction-house-service",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "A simple auction house service built with NodeJS, Fastify and Prisma",
   "main": "index.js",
   "scripts": {
