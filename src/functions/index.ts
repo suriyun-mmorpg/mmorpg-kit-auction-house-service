@@ -1,8 +1,8 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
+import { DateTime } from 'luxon'
 import { PrismaClient as AuctionClient } from '../../prisma/generated/auction-client'
 import { PrismaClient as MailClient } from '../../prisma/generated/mail-client'
 import { CreateAuctionForm, BidForm, BuyoutForm, CancelAuctionForm, AuctionConfig } from '../interfaces'
-import { DateTime } from 'luxon'
 
 export class AuctionService {
     auctionConfig: AuctionConfig
@@ -100,7 +100,7 @@ export class AuctionService {
             }
         })
         if (!auction) {
-            reply.code(400).send()
+            reply.code(404).send()
             return
         }
         auction.timeLeft = this.findTimeLeft(DateTime.fromJSDate(auction.endedAt).toLocal())

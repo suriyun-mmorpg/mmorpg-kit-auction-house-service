@@ -1,10 +1,10 @@
 import fastify, { FastifyListenOptions } from 'fastify'
 import authPlugin from '@fastify/auth'
 import bearerAuthPlugin from '@fastify/bearer-auth'
+import { nanoid } from 'nanoid'
+import * as dotenv from 'dotenv'
 import { PrismaClient as AuctionClient } from '../prisma/generated/auction-client'
 import { PrismaClient as MailClient } from '../prisma/generated/mail-client'
-import * as dotenv from 'dotenv'
-import { nanoid } from 'nanoid'
 import { CreateAuctionForm, BidForm, BuyoutForm, CancelAuctionForm, AuctionConfig } from './interfaces'
 import { AuctionService } from './functions'
 
