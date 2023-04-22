@@ -8,31 +8,28 @@ export class AuctionService {
     auctionConfig: AuctionConfig
     auctionClient: AuctionClient;
     mailClient: MailClient;
-    updatingAuctions: { [id: number] : any } = {}
-    
-    constructor(auctionConfig: AuctionConfig, auctionClient: AuctionClient, mailClient: MailClient)
-    {
+    updatingAuctions: { [id: number]: any } = {}
+
+    constructor(auctionConfig: AuctionConfig, auctionClient: AuctionClient, mailClient: MailClient) {
         this.auctionConfig = auctionConfig
         this.auctionClient = auctionClient
         this.mailClient = mailClient
     }
 
-    public async auctionUpdateLoopInitialze()
-    {
+    public auctionUpdateLoopInitialze = async () => {
         const auctions = await this.auctionClient.auction.findMany({
             where: {
                 isEnd: false,
             }
         })
         auctions.forEach(auction => {
-            this.addUpdatingAuction.bind(this)(auction)
+            this.addUpdatingAuction(auction)
         });
-        this.auctionUpdateLoop.bind(this)()
-        setInterval(this.auctionUpdateLoop.bind(this), 5000)
+        this.auctionUpdateLoop()
+        setInterval(this.auctionUpdateLoop, 5000)
     }
 
-    private auctionUpdateLoop()
-    {
+    private auctionUpdateLoop = () => {
         // Loop to update auction ending
         const currentDate = DateTime.local().toJSDate()
         for (const id in this.updatingAuctions) {
@@ -55,20 +52,18 @@ export class AuctionService {
                     if (result.count === 0) {
                         return
                     }
-                    this.sendItem.bind(this)(Number(id))
+                    this.sendItem(Number(id))
                 })
                 delete this.updatingAuctions[id]
             }
         }
     }
 
-    private addUpdatingAuction(auction: any)
-    {
+    private addUpdatingAuction = (auction: any) => {
         this.updatingAuctions[auction.id] = auction
     }
 
-    public async getListApi(request: FastifyRequest, reply: FastifyReply)
-    {
+    public getListApi = async (request: FastifyRequest, reply: FastifyReply) => {
         const query: any = request.query
         const limit = Number(query.limit ? query.limit : 20)
         const page = Number(query.page ? query.page : 1)
@@ -85,7 +80,7 @@ export class AuctionService {
             }
         })
         for (let i = 0; i < list.length; ++i) {
-            list[i].timeLeft = this.findTimeLeft.bind(this)(DateTime.fromJSDate(list[i].endedAt).toLocal())
+            list[i].timeLeft = this.findTimeLeft(DateTime.fromJSDate(list[i].endedAt).toLocal())
         }
         const totalPage = Math.ceil(count / limit);
         reply.code(200).send({
@@ -96,8 +91,7 @@ export class AuctionService {
         })
     }
 
-    public async getEntryApi(request: FastifyRequest, reply: FastifyReply)
-    {
+    public getEntryApi = async (request: FastifyRequest, reply: FastifyReply) => {
         const params: any = request.params
         const id = Number(params.id)
         const auction: any = await this.auctionClient.auction.findUnique({
@@ -109,12 +103,11 @@ export class AuctionService {
             reply.code(400).send()
             return
         }
-        auction.timeLeft = this.findTimeLeft.bind(this)(DateTime.fromJSDate(auction.endedAt).toLocal())
+        auction.timeLeft = this.findTimeLeft(DateTime.fromJSDate(auction.endedAt).toLocal())
         reply.code(200).send(auction)
     }
 
-    public async getSellHistoryApi(request: any, reply: FastifyReply)
-    {
+    public getSellHistoryApi = async (request: any, reply: FastifyReply) => {
         const query: any = request.query
         const limit = Number(query.limit ? query.limit : 20)
         const page = Number(query.page ? query.page : 1)
@@ -132,7 +125,7 @@ export class AuctionService {
             }
         })
         for (let i = 0; i < list.length; ++i) {
-            list[i].timeLeft = this.findTimeLeft.bind(this)(DateTime.fromJSDate(list[i].endedAt).toLocal())
+            list[i].timeLeft = this.findTimeLeft(DateTime.fromJSDate(list[i].endedAt).toLocal())
         }
         const totalPage = Math.ceil(count / limit);
         reply.code(200).send({
@@ -143,8 +136,7 @@ export class AuctionService {
         })
     }
 
-    public async getBuyHistoryApi(request: any, reply: FastifyReply)
-    {
+    public getBuyHistoryApi = async (request: any, reply: FastifyReply) => {
         const query: any = request.query
         const limit = Number(query.limit ? query.limit : 20)
         const page = Number(query.page ? query.page : 1)
@@ -162,7 +154,7 @@ export class AuctionService {
             }
         })
         for (let i = 0; i < list.length; ++i) {
-            list[i].timeLeft = this.findTimeLeft.bind(this)(DateTime.fromJSDate(list[i].endedAt).toLocal())
+            list[i].timeLeft = this.findTimeLeft(DateTime.fromJSDate(list[i].endedAt).toLocal())
         }
         const totalPage = Math.ceil(count / limit);
         reply.code(200).send({
@@ -173,15 +165,13 @@ export class AuctionService {
         })
     }
 
-    public async getDurationOptionsApi(request: FastifyRequest, reply: FastifyReply)
-    {
+    public getDurationOptionsApi = async (request: FastifyRequest, reply: FastifyReply) => {
         reply.code(200).send({
             durationOptions: this.auctionConfig.auction_options
         })
     }
-    
-    public async postAuctionApi(request: FastifyRequest, reply: FastifyReply)
-    {
+
+    public postAuctionApi = async (request: FastifyRequest, reply: FastifyReply) => {
         const form: CreateAuctionForm = request.body as CreateAuctionForm
         const newAuction = await this.auctionClient.auction.create({
             data: {
@@ -200,12 +190,11 @@ export class AuctionService {
             reply.code(500).send()
             return
         }
-        this.addUpdatingAuction.bind(this)(newAuction)
+        this.addUpdatingAuction(newAuction)
         reply.code(200).send()
     }
 
-    public async postCancelAuctionApi(request: FastifyRequest, reply: FastifyReply)
-    {
+    public postCancelAuctionApi = async (request: FastifyRequest, reply: FastifyReply) => {
         const form: CancelAuctionForm = request.body as CancelAuctionForm
         const auction: any = await this.auctionClient.auction.findUnique({
             where: {
@@ -247,12 +236,11 @@ export class AuctionService {
             reply.code(500).send()
             return
         }
-        await this.sendItemForCancelledSeller.bind(this)(form.id)
+        await this.sendItemForCancelledSeller(form.id)
         reply.code(200).send()
     }
 
-    public async postBidApi(request: FastifyRequest, reply: FastifyReply)
-    {
+    public postBidApi = async (request: FastifyRequest, reply: FastifyReply) => {
         const form: BidForm = request.body as BidForm
         const auction = await this.auctionClient.auction.findUnique({
             where: {
@@ -318,12 +306,11 @@ export class AuctionService {
                 isBuyout: false
             }
         })
-        await this.returnGold.bind(this)(returnBuyerId, returnCurrency)
+        await this.returnGold(returnBuyerId, returnCurrency)
         reply.code(200).send()
     }
 
-    public async postBuyoutApi(request: FastifyRequest, reply: FastifyReply)
-    {
+    public postBuyoutApi = async (request: FastifyRequest, reply: FastifyReply) => {
         const form: BuyoutForm = request.body as BuyoutForm
         const auction: any = await this.auctionClient.auction.findUnique({
             where: {
@@ -370,7 +357,7 @@ export class AuctionService {
             reply.code(500).send()
             return
         }
-        await this.sendItemForBuyout.bind(this)(form.id)
+        await this.sendItemForBuyout(form.id)
         this.auctionClient.auction_bid_logs.create({
             data: {
                 auctionId: form.id,
@@ -380,19 +367,17 @@ export class AuctionService {
                 isBuyout: true
             }
         })
-        await this.returnGold.bind(this)(returnBuyerId, returnCurrency)
+        await this.returnGold(returnBuyerId, returnCurrency)
         reply.code(200).send()
     }
 
-    private findTimeLeft(endedAt: DateTime): number
-    {
+    private findTimeLeft = (endedAt: DateTime): number => {
         const currentTime = DateTime.local()
         const diff = endedAt.diff(currentTime, ["milliseconds"])
         return Number(diff.toObject()['milliseconds'])
     }
 
-    private async sendItem(id: number)
-    {
+    private sendItem = async (id: number) => {
         const auction = await this.auctionClient.auction.findUnique({
             where: {
                 id: id
@@ -401,8 +386,7 @@ export class AuctionService {
         if (!auction) {
             return
         }
-        if (!auction.buyerId || auction.buyerId.length == 0)
-        {
+        if (!auction.buyerId || auction.buyerId.length == 0) {
             // Send item to seller
             await this.mailClient.mail.create({
                 data: {
@@ -418,15 +402,14 @@ export class AuctionService {
                 }
             })
         }
-        else
-        {
+        else {
             // Send item to buyer
             await this.mailClient.mail.create({
                 data: {
                     eventId: "",
                     senderId: this.auctionConfig.mail_sender_id,
                     senderName: this.auctionConfig.mail_sender_name,
-                    receiverId:  auction.buyerId,
+                    receiverId: auction.buyerId,
                     title: this.auctionConfig.mail_bought_title,
                     content: this.auctionConfig.mail_bought_content,
                     currencies: "",
@@ -451,8 +434,7 @@ export class AuctionService {
         }
     }
 
-    private async sendItemForCancelledSeller(id: number)
-    {
+    private sendItemForCancelledSeller = async (id: number) => {
         const auction = await this.auctionClient.auction.findUnique({
             where: {
                 id: id
@@ -467,7 +449,7 @@ export class AuctionService {
                 eventId: "",
                 senderId: this.auctionConfig.mail_sender_id,
                 senderName: this.auctionConfig.mail_sender_name,
-                receiverId:  auction.sellerId,
+                receiverId: auction.sellerId,
                 title: this.auctionConfig.mail_auction_cancelled_title,
                 content: this.auctionConfig.mail_auction_cancelled_content,
                 currencies: "",
@@ -477,8 +459,7 @@ export class AuctionService {
         })
     }
 
-    private async sendItemForBuyout(id: number)
-    {
+    private sendItemForBuyout = async (id: number) => {
         const auction = await this.auctionClient.auction.findUnique({
             where: {
                 id: id
@@ -493,7 +474,7 @@ export class AuctionService {
                 eventId: "",
                 senderId: this.auctionConfig.mail_sender_id,
                 senderName: this.auctionConfig.mail_sender_name,
-                receiverId:  auction.buyerId,
+                receiverId: auction.buyerId,
                 title: this.auctionConfig.mail_bought_title,
                 content: this.auctionConfig.mail_bought_content,
                 currencies: "",
@@ -517,8 +498,7 @@ export class AuctionService {
         })
     }
 
-    private async returnGold(userId: string, gold: number)
-    {
+    private returnGold = async (userId: string, gold: number) => {
         if (!userId || userId.length == 0) {
             return
         }

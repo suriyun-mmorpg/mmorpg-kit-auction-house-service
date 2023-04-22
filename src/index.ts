@@ -33,23 +33,23 @@ const server = fastify({ logger: true })
         addHook: false,
     })
     .after(() => {
-        server.get('/', functions.getListApi.bind(functions))
+        server.get('/', functions.getListApi)
 
-        server.get('/:id', functions.getEntryApi.bind(functions))
+        server.get('/:id', functions.getEntryApi)
 
         server.get('/sell-history', {
             preHandler: server.auth([
                 validateUserAccess
             ]),
-        }, functions.getSellHistoryApi.bind(functions))
+        }, functions.getSellHistoryApi)
 
         server.get('/buy-history', {
             preHandler: server.auth([
                 validateUserAccess
             ]),
-        }, functions.getBuyHistoryApi.bind(functions))
+        }, functions.getBuyHistoryApi)
 
-        server.get('/duration-options', functions.getDurationOptionsApi.bind(functions))
+        server.get('/duration-options', functions.getDurationOptionsApi)
 
         server.get('/internal/access-token', {
             preHandler: server.auth([
@@ -70,25 +70,25 @@ const server = fastify({ logger: true })
             preHandler: server.auth([
                 server.verifyBearerAuth!
             ]),
-        }, functions.postAuctionApi.bind(functions))
+        }, functions.postAuctionApi)
 
         server.post<{ Body: CancelAuctionForm }>('/internal/cancel-auction', {
             preHandler: server.auth([
                 server.verifyBearerAuth!
             ]),
-        }, functions.postCancelAuctionApi.bind(functions))
+        }, functions.postCancelAuctionApi)
 
         server.post<{ Body: BidForm }>('/internal/bid', {
             preHandler: server.auth([
                 server.verifyBearerAuth!
             ]),
-        }, functions.postBidApi.bind(functions))
+        }, functions.postBidApi)
 
         server.post<{ Body: BuyoutForm }>('/internal/buyout', {
             preHandler: server.auth([
                 server.verifyBearerAuth!
             ]),
-        }, functions.postBuyoutApi.bind(functions))
+        }, functions.postBuyoutApi)
     })
 
 
@@ -102,5 +102,5 @@ server.listen(options, (err, address) => {
         process.exit(1)
     }
     console.log(`Server listening at ${address}`)
-    functions.auctionUpdateLoopInitialze.bind(functions)()
+    functions.auctionUpdateLoopInitialze()
 })
