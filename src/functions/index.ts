@@ -11,6 +11,9 @@ export class AuctionService {
     updatingAuctions: { [id: number]: any } = {}
 
     constructor(auctionConfig: AuctionConfig, auctionClient: AuctionClient, mailClient: MailClient) {
+        (BigInt.prototype as any).toJSON = function () {
+            return this.toString()
+        }
         this.auctionConfig = auctionConfig
         this.auctionClient = auctionClient
         this.mailClient = mailClient
