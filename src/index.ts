@@ -9,7 +9,7 @@ import { CreateAuctionForm, BidForm, BuyoutForm, CancelAuctionForm, AuctionConfi
 import { AuctionService } from './functions'
 
 dotenv.config()
-const secretKeys: string = process.env['SECRET_KEYS']!
+const secretKeys: string = process.env.SECRET_KEYS ? process.env.SECRET_KEYS : "[\"secret\"]"
 const auctionConfig = require('../auction-conf.json') as AuctionConfig
 const auctionClient = new AuctionClient()
 const mailClient = new MailClient()
@@ -93,8 +93,8 @@ const server = fastify({ logger: true })
 
 
 const options: FastifyListenOptions = {
-    host: String(process.env['ADDRESS']),
-    port: Number(process.env['PORT']),
+    host: String(process.env.ADDRESS ? process.env.ADDRESS : "0.0.0.0"),
+    port: Number(process.env.PORT ? process.env.PORT : 80),
 }
 server.listen(options, (err, address) => {
     if (err) {
