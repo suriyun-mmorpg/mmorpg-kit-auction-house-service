@@ -28,13 +28,11 @@
   },
   "dependencies": {
     "@fastify/auth": "^4.6.1",
-    "@fastify/bearer-auth": "^9.4.0",
     "@prisma/client": "^5.19.0",
     "axios": "^1.7.7",
     "dotenv": "^16.4.5",
     "fastify": "^4.28.1",
     "luxon": "^3.5.0",
-    "nanoid": "^5.0.7",
     "tslib": "^2.7.0"
   }
 }
