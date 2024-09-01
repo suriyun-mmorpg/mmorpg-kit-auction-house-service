@@ -1,7 +1,5 @@
 import fastify, { FastifyListenOptions } from 'fastify'
 import authPlugin from '@fastify/auth'
-import bearerAuthPlugin from '@fastify/bearer-auth'
-import { nanoid } from 'nanoid'
 import * as dotenv from 'dotenv'
 import { PrismaClient as AuctionClient } from '../prisma/generated/auction-client'
 import { PrismaClient as MailClient } from '../prisma/generated/mail-client'
@@ -13,25 +11,38 @@ const secretKeys: string = process.env.SECRET_KEYS ? process.env.SECRET_KEYS : "
 const auctionConfig = require('../auction-conf.json') as AuctionConfig
 const auctionClient = new AuctionClient()
 const mailClient = new MailClient()
-const userAccessToken: { [id: string]: string } = {}
 
 const validateUserAccess = async(request: any, reply: any, done: (err?: Error) => void) =>
 {
     const header = request.headers.authorization!
     const key = header.substring("Bearer".length).trim()
-    if (!Object.prototype.hasOwnProperty.call(userAccessToken, key)) {
-        done(new Error('Wrong access token'))
+    const str = atob(key);
+    const splitedStr = str.split('_')
+    if (splitedStr.length <= 0) {
+        done(new Error('Invalid access token'))
         return
     }
-    request.userId = userAccessToken[key]
+    // TODO: May validate with database
+    request.userId = splitedStr[0]
 }
+
+const validateAppAccess = async(request: any, reply: any, done: (err?: Error) => void) =>
+{
+    const header = request.headers['x-api-key']!
+    if (!header) {
+        done(new Error('No secret key'))
+        return
+    }
+    const keys = JSON.parse(secretKeys)
+    if (keys.indexOf(header) < 0) {
+        done(new Error('Invalid secret key'))
+        return
+    }
+}
+
 const functions = new AuctionService(auctionConfig, auctionClient, mailClient)
 const server = fastify({ logger: true })
     .register(authPlugin)
-    .register(bearerAuthPlugin, {
-        keys: JSON.parse(secretKeys),
-        addHook: false,
-    })
     .after(() => {
         server.get('/', functions.getListApi)
 
@@ -51,42 +62,27 @@ const server = fastify({ logger: true })
 
         server.get('/duration-options', functions.getDurationOptionsApi)
 
-        server.get('/internal/access-token', {
-            preHandler: server.auth([
-                server.verifyBearerAuth!
-            ]),
-        }, async (request, reply) => {
-            const query: any = request.query
-            const userId = query.userId
-            const accessToken = nanoid(6)
-            userAccessToken[accessToken] = userId
-            reply.code(200).send({
-                userId: userId,
-                accessToken: accessToken,
-            })
-        })
-
         server.post<{ Body: CreateAuctionForm }>('/internal/auction', {
             preHandler: server.auth([
-                server.verifyBearerAuth!
+                validateAppAccess
             ]),
         }, functions.postAuctionApi)
 
         server.post<{ Body: CancelAuctionForm }>('/internal/cancel-auction', {
             preHandler: server.auth([
-                server.verifyBearerAuth!
+                validateAppAccess
             ]),
         }, functions.postCancelAuctionApi)
 
         server.post<{ Body: BidForm }>('/internal/bid', {
             preHandler: server.auth([
-                server.verifyBearerAuth!
+                validateAppAccess
             ]),
         }, functions.postBidApi)
 
         server.post<{ Body: BuyoutForm }>('/internal/buyout', {
             preHandler: server.auth([
-                server.verifyBearerAuth!
+                validateAppAccess
             ]),
         }, functions.postBuyoutApi)
     })
