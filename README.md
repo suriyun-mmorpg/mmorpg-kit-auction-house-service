@@ -6,7 +6,7 @@ Auction house service for MMORPG KIT
 
 ## Install
 - Clone this repo
-- `npm i --force`
+- `npm i`
 
 ## Generate Prisma Clients
 - `npx prisma generate --schema "./prisma/auctionSchema.prisma"`
@@ -24,7 +24,7 @@ Auction database's provider is MySQL, so you have to prepare MySQL server, also 
 - `MAIL_DATABASE_URL` is connection string to connect to MMORPG KIT database.
 
 ## Auction Database Creation
-After you set `AUCTION_DATABASE_URL` properly, then you have to push tables by uses command `npx prisma db push --schema "./prisma/auctionSchema.prisma"` (You won't have to push mail schema because it is part of MMORPG KIT, just have to set `MAIL_DATABASE_URL`)
+After you set `AUCTION_DATABASE_URL` properly, then you have to push tables by uses command `npx prisma migrate deploy --schema "./prisma/auctionSchema.prisma"` (You won't have to push mail schema because it is part of MMORPG KIT, just have to set `MAIL_DATABASE_URL`)
 
 ## Build and Start
 ```
