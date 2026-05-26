@@ -1,6 +1,7 @@
 import fastify, { FastifyListenOptions } from 'fastify'
 import authPlugin from '@fastify/auth'
 import * as dotenv from 'dotenv'
+import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 import { PrismaClient as AuctionClient } from '../prisma/generated/auction-client'
 import { PrismaClient as MailClient } from '../prisma/generated/mail-client'
 import { CreateAuctionForm, BidForm, BuyoutForm, CancelAuctionForm, AuctionConfig } from './interfaces'
@@ -9,8 +10,14 @@ import { AuctionService } from './functions'
 dotenv.config()
 const secretKeys: string = process.env.SECRET_KEYS ? process.env.SECRET_KEYS : "[\"secret\"]"
 const auctionConfig = require('../auction-conf.json') as AuctionConfig
-const auctionClient = new AuctionClient()
-const mailClient = new MailClient()
+
+const auctionDatabaseUrl: string = process.env.AUCTION_DATABASE_URL ? process.env.AUCTION_DATABASE_URL : "mysql://root:password@localhost:3306/mmorpg_kit_auction"
+const auctionPrismaAdapter = new PrismaMariaDb(auctionDatabaseUrl)
+const auctionClient = new AuctionClient({ adapter: auctionPrismaAdapter })
+
+const mailDatabaseUrl: string = process.env.MAIL_DATABASE_URL ? process.env.MAIL_DATABASE_URL : "mysql://root:password@localhost:3306/mmorpg_kit"
+const mailPrismaAdapter = new PrismaMariaDb(mailDatabaseUrl)
+const mailClient = new MailClient({ adapter: mailPrismaAdapter })
 
 const validateUserAccess = async(request: any, reply: any, done: (err?: Error) => void) =>
 {
